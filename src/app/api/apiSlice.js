@@ -22,8 +22,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   let result = await baseQuery(args, api, extraOptions)
 
-  if (result?.error?.status === 403) { //Invalid(Expired) access token
-    const refreshResult = await baseQuery("/api/auth/refresh", api, extraOptions)
+  if (result?.error?.status === 403 || result?.error?.status === 401) { //Invalid(Expired) access token
+    const refreshResult = await baseQuery("/refresh", api, extraOptions)
     if (refreshResult?.data) {
 
       // store new access token
