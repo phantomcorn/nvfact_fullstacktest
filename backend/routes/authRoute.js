@@ -5,19 +5,9 @@
     Any request to <BASE_URL>/api/auth/ is further directed to the correct backend logic here
 */
 import express from "express"
-import {create, verifyEmail, login, refresh, logout} from "../controllers/authController.js"
+import {login, refresh, logout} from "../controllers/authController.js"
 import loginLimiter from "../middleware/loginLimiter.js"
 const router = express.Router();
-
-//<BASE_URL>/api/auth/create
-router.post("/create", create)
-
-/*
-    <BASE_URL>/api/auth/verify-email?id=${accountId}&verifyToken=${verificationToken}`
-
-    Gets called when user clicks the link send via email on account creation
-*/
-router.post("/verify-email", verifyEmail)
 
 /*  
     <BASE_URL>/api/auth/
@@ -31,7 +21,7 @@ router.post("/verify-email", verifyEmail)
             Grant/Renews access to user access token
             Sent as httpOnly cookie (inaccessible via JavaScript)
 */
-router.post("/", loginLimiter, login)
+router.post("/login", loginLimiter, login)
 
 /*
     <BASE_URL>/api/auth/refresh

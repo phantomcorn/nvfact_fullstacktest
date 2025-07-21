@@ -6,69 +6,67 @@
 */
 
 import asyncHandler from 'express-async-handler'
-import Account from "../models/accountModel.js"
+import Account from "../models/userModel.js"
 import validateEmail from '../utils/validateEmail.js'
-import sendEmail from '../utils/sendEmail.js'
 // Hash function
 import bcrypt from "bcrypt"
-import crypto from "crypto"
 import jwt from "jsonwebtoken"
 
 // @route POST /api/auth/create
-const create = asyncHandler(async (req, res) => {
-    const {email, password} = req.body
-    if (!email || !password) return res.status(400).send({message: "A field is currently missing"})
-    if (!validateEmail(email)) return res.status(400).send({message: "The email you have provided is not in the correct format"})
+// const create = asyncHandler(async (req, res) => {
+//     const {email, password} = req.body
+//     if (!email || !password) return res.status(400).send({message: "A field is currently missing"})
+//     if (!validateEmail(email)) return res.status(400).send({message: "The email you have provided is not in the correct format"})
     
-    let user = await Account.findOne({email: email})
-    if (user) return res.status(409).send({message: "Email already taken"})
+//     let user = await Account.findOne({email: email})
+//     if (user) return res.status(409).send({message: "Email already taken"})
     
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-    //create new account
-    const newAccount = new Account({
-        email, 
-        password: hashedPassword,
-        didVerify: false
-    })
+//     const salt = await bcrypt.genSalt(10)
+//     const hashedPassword = await bcrypt.hash(password, salt)
+//     //create new account
+//     const newAccount = new Account({
+//         email, 
+//         password: hashedPassword,
+//         didVerify: false
+//     })
 
-    const verificationToken = newAccount.getVerificationToken()
-    const verificationLink = `${process.env.VITE_APP_BASE_URL}/verify-email?id=${newAccount._id}&verifyToken=${verificationToken}`
-    await sendEmail(email, verificationLink)
-    //save account details to mongoDB  
-    newAccount.save()
-    //return result to frontend
-    res.status(200).send({
-        email: email,
-        message: "Account succesfully registered, please verify your email"
-    })
+//     const verificationToken = newAccount.getVerificationToken()
+//     const verificationLink = `${process.env.VITE_APP_BASE_URL}/verify-email?id=${newAccount._id}&verifyToken=${verificationToken}`
+//     await sendEmail(email, verificationLink)
+//     //save account details to mongoDB  
+//     newAccount.save()
+//     //return result to frontend
+//     res.status(200).send({
+//         email: email,
+//         message: "Account succesfully registered, please verify your email"
+//     })
     
-})
+// })
 
 // @route POST /api/auth/verify-email
-const verifyEmail = asyncHandler(async (req, res) => {
-    const { id, verifyToken } = req.body;
-    if (!id || !verifyToken) return res.status(400).json({message: "Missing verify email parameters"})
+// const verifyEmail = asyncHandler(async (req, res) => {
+//     const { id, verifyToken } = req.body;
+//     if (!id || !verifyToken) return res.status(400).json({message: "Missing verify email parameters"})
 
-    const hashedToken = crypto.createHash("sha256").update(verifyToken).digest("hex")
+//     const hashedToken = crypto.createHash("sha256").update(verifyToken).digest("hex")
 
-    const user = await Account.findOne({
-        _id: id,
-        verifyToken: hashedToken,
-        verifyTokenExpire: {$gt: new Date()} //verification token not expired
-    })
+//     const user = await Account.findOne({
+//         _id: id,
+//         verifyToken: hashedToken,
+//         verifyTokenExpire: {$gt: new Date()} //verification token not expired
+//     })
 
-    if (!user) return res.status(403).send({message: "Invalid or expired token"})
-    user.didVerify = true
-    user.verifyToken = undefined
-    user.verifyTokenExpire = undefined
-    await user.save()
+//     if (!user) return res.status(403).send({message: "Invalid or expired token"})
+//     user.didVerify = true
+//     user.verifyToken = undefined
+//     user.verifyTokenExpire = undefined
+//     await user.save()
         
-    res.status(200).send({message: "Email verified succesfully"})
+//     res.status(200).send({message: "Email verified succesfully"})
     
-})
+// })
 
-// @route POST /api/auth/
+// @route POST /login
 const login = asyncHandler(async (req,res) => {
 
     const {email, password} = req.body
@@ -78,22 +76,23 @@ const login = asyncHandler(async (req,res) => {
     let user = await Account.findOne({email: email})
     if (!user) return res.status(404).send({message: "No account associated with the provided email"})
     
+    //compare plain text (password) to hashed text (user.password)
     const match = await bcrypt.compare(password, user.password)
     if (!match) return res.status(400).send({message: "Incorrect password"})
 
     //login credentials matched
-    if (!user.didVerify) { //user has not verified their email
-        if (Date.now() > user.verifyTokenExpire) { //if verification link expired
-            const verificationToken = user.getVerificationToken()
-            const verificationLink = `${process.env.VITE_APP_BASE_URL}/verify-email?id=${user._id}&verifyToken=${verificationToken}`
-            await sendEmail(email, verificationLink)
-            //update account details to mongoDB  
-            user.save()
-            return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "We have sent you a new email verification, please verify them before you can use your account"})
-        } else { //email not verified (not expired)
-            return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "Email not verified"})
-        }   
-    } 
+    // if (!user.didVerify) { //user has not verified their email
+    //     if (Date.now() > user.verifyTokenExpire) { //if verification link expired
+    //         const verificationToken = user.getVerificationToken()
+    //         const verificationLink = `${process.env.VITE_APP_BASE_URL}/verify-email?id=${user._id}&verifyToken=${verificationToken}`
+    //         await sendEmail(email, verificationLink)
+    //         //update account details to mongoDB  
+    //         user.save()
+    //         return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "We have sent you a new email verification, please verify them before you can use your account"})
+    //     } else { //email not verified (not expired)
+    //         return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "Email not verified"})
+    //     }   
+    // } 
         
     //create(encode) access token
     const accessToken = jwt.sign(
@@ -179,4 +178,10 @@ const logout = (req,res) => {
 }
 
 
-export {create, verifyEmail, login, refresh, logout}
+export {
+    //create, 
+    //verifyEmail, 
+    login, 
+    refresh, 
+    logout
+}
