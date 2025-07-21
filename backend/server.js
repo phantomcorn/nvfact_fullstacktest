@@ -33,7 +33,7 @@ const app = express();
 connectDB()
 
 app.use(express.json())
-// app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({extended: false}))
 
 app.use(cors({
     origin: process.env.VITE_APP_BASE_URL,
@@ -48,13 +48,13 @@ app.use(cookieParser())
     Any request made to <BASE_URL>/api/auth/ is directed to authRoute
     Handles account creation, authentication(login), verification(email), authorization(subsequent API calls)
 */
-app.use("/api/auth", authRoute)
+app.use("/", authRoute)
 
 /*
     Any request made to <BASE_URL>/api/user/ is directed to authRoute
     Handles getting user data
 */
-app.use("/api/user", verifyJWT, userRoute)
+app.use("/users", userRoute)
 
 
 // Any other request are rejected
