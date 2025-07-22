@@ -1,0 +1,57 @@
+.user-table {
+    background-color: #2ea44f;
+    padding: 20px;
+    border-radius: 24px;
+}
+
+.table-heading {
+    display: flex;
+    justify-content: space-around;
+    height: 64px;
+    align-items: center;
+    color: white;
+}
+
+.users {
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+ 
+}
+.select-user {
+    display: flex;
+    background-color: white;
+    justify-content: space-around;
+    height: 64px;
+    align-items: center;
+    border-radius: 16px;
+    position: relative;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.edit-btn {
+    position: absolute;
+    right: 0;
+    margin-right: 8px;
+}
+
+.isActive {
+    border-radius: 50%;
+    padding: 12px;
+    border: 2px solid currentColor;
+}
+
+.active {
+    color: #2ea44f;
+}
+
+.inactive {
+    color: #6B828C
+}
+
+.blur {
+    filter: blur(16px);
+}

@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VerifyEmail from './pages/VerifyEmail';
 import NoPage from './pages/NoPage';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import Prefetch from './features/auth/Prefetch.jsx';
