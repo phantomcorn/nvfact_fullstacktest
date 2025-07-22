@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { setCredentials } from '../features/auth/authSlice.js';
-import { useLoginMutation, useRegisterMutation } from "../features/auth/authApiSlice.js"
+import { setCredentials } from '../../features/auth/authSlice.js';
+import { useLoginMutation, useRegisterMutation } from "../../features/auth/authApiSlice.js"
 
 
-export default function Main() {
+export default function LoginPage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -21,8 +21,9 @@ export default function Main() {
         e.preventDefault()
         try {
             const resp = await login({email: userRef.current, password: passRef.current}).unwrap()
-            if (resp.didVerify) { //user has verified their account, proceed as normal
-                dispatch(setCredentials({token : resp.token}))
+
+            if (resp.token) { //user has verified their account and is admin
+                dispatch(setCredentials(resp))
                 navigate("/dashboard")
             } else {
                 setMsg(resp.message)
@@ -64,17 +65,17 @@ export default function Main() {
     return (
         <div className="App">
             <div className="email">
-                <div> Email </div>
+                <h6> Email </h6>
                 <input onChange={(e) => {userRef.current = e.target.value}}/>
             </div>
             <div className="password">
-                <div> Password</div>
+                <h6> Password </h6>
                 <input type="password" onChange={(e) => {passRef.current = e.target.value}}/>
             </div>
-            <button onClick={handleLogin} >Log In</button>
+            <button onClick={handleLogin}>Log In</button>
             <button onClick={handleRegister} >Register</button>
             {msg && 
-                <div>STATUS: {msg}</div>
+                <caption>STATUS: {msg}</caption>
             }
         </div>
     )
