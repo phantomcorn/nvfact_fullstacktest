@@ -34,6 +34,37 @@ input[type=password]:focus {
   border-color:#2E3B41 ;
 }
 
+.primary-btn {
+  background-color: #F08B39;
+}
+
+.primary-btn:hover {
+  background-color: #DD8034;
+}
+.primary-btn:active {
+  background-color: #CC7630;
+}
+
+.secondary-btn {
+  background-color: #2ea44f;
+}
+.secondary-btn:hover {
+  background-color: #2c974b;
+}
+.secondary-btn:active {
+  background-color: #298e46;
+}
+
+.warning-btn {
+  background-color: #EF4444;
+}
+.warning-btn:hover {
+  background-color:#DC2626
+}
+.warning-btn:active {
+  background-color: #B91C1C
+}
+
 button {
   height: 48px;
   width: 88px;
@@ -53,16 +84,12 @@ button {
   white-space: nowrap;
   border: none;
   border-radius: 8px;
-  background-color: #2ea44f;
+  
 }
 
 button:focus:not(:focus-visible):not(.focus-visible) {
   box-shadow: none;
   outline: none;
-}
-
-button:hover {
-  background-color: #2c974b;
 }
 
 button:focus {
