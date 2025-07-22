@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import validateEmail from '../utils/validateEmail.js'
 import bcrypt from "bcrypt"
+import { isObjectIdOrHexString } from 'mongoose'
 
 // @route GET /users
 const getUsers = asyncHandler(async (req, res) => {
@@ -53,12 +54,13 @@ const updateUser = asyncHandler(async (req,res) => {
 
     const update = req.body
     const {id} = req.params
+    if (!id) return res.status(400).send({message: "No parameter (id)"})
+    if (!isObjectIdOrHexString(id)) return res.status(400).send({message: "Invalid id"})
     //returns document if found
-    const found = User.findOneAndUpdate({_id: id}, {update})
+    const found = await User.findOneAndUpdate({_id: id}, update) //atomic
 
     if (!found) return res.status(404).send({message: "User not found"})
 
-    await found.save()
     return res.status(200).send({message: "User updated succesfully"})
 
 })
@@ -66,6 +68,8 @@ const updateUser = asyncHandler(async (req,res) => {
 // @route DELETE /users/:id
 const deleteUser = asyncHandler(async (req,res) => {
     const {id} = req.params
+    if (!id) return res.status(400).send({message: "No parameter (id)"})
+    if (!isObjectIdOrHexString(id)) return res.status(400).send({message: "Invalid id"})
     //returns document if found
     const found = User.findOneAndDelete({_id: id})
 
