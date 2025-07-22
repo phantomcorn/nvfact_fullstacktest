@@ -124,8 +124,11 @@ const login = asyncHandler(async (req,res) => {
 
     //user did verify their email => login as normal
     res.status(200).json({
-        email: user.email, 
-        didVerify: user.didVerify, //true
+        name: user.name,
+        email: user.email,
+        birthdate: user.email,
+        role: user.role,
+        isActive: user.isActive,
         token: accessToken//send access token to be use for subsequent API calls
     })  
 })
@@ -163,7 +166,14 @@ const refresh = (req,res) => {
                 { expiresIn: "5m" }
             )
 
-            res.json({ token: accessToken })
+            res.json({ 
+                token: accessToken,
+                name: user.name,
+                email: user.email,
+                birthdate: user.email,
+                role: user.role,
+                isActive: user.isActive,
+            })
         })
     )
 }

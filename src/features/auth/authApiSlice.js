@@ -39,7 +39,7 @@ export const authApiSlice = apiSlice.injectEndpoints({ //Any auth api is injecte
             async onQueryStarted(arg, {dispatch, queryFulfilled}) { //if query succesful, we automatically set our new state
                 try {
                     const resp = await queryFulfilled
-                    dispatch(setCredentials({token: resp.data.token}))
+                    dispatch(setCredentials(resp.data))
                 } catch (err) {
                     console.log(err)
                 }
