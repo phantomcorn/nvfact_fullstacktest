@@ -10,4 +10,10 @@
 }
 
 .modal {
+    border-radius: 20px;
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }

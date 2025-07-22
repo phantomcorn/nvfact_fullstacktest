@@ -13,43 +13,48 @@ export default function Modal({user, closeModal}) {
         }
     }
 
+    const handleClose = (event) => {
+        event.stopPropagation()
+        closeModal()
+    }
+
     return (
-        <div className="overlay">
-        <Formik
-            initialValues={{
-                email: user.email,
-                name: user.name,
-                role: user.role,
-                birthdate: user.birthdate,
-            }}
-            enableReinitialize
-            onSubmit={async (values) => handleSubmit(values)}
-        >
-            <Form className="modal">
-                <div className='input-group'>
-                    <label htmlFor='email'>Email</label>
-                    <Field className="text-field" id="email" name="email" type="email"/>
-                </div>
+        <div className="overlay" onClick={handleClose}>
+            <Formik
+                initialValues={{
+                    email: user.email,
+                    name: user.name,
+                    role: user.role,
+                    birthdate: user.birthdate,
+                }}
+                enableReinitialize
+                onSubmit={async (values) => handleSubmit(values)}
+            >
+                <Form className="modal shadow" onClick={(e) => e.stopPropagation()}>
+                    <div className='input-group'>
+                        <label htmlFor='email'>Email</label>
+                        <Field className="text-field" id="email" name="email" type="email"/>
+                    </div>
 
-                <div className='input-group'>
-                    <label htmlFor='name'>Name</label>
-                    <Field className="text-field" id="name" name="name" type="name"/>
-                </div>
+                    <div className='input-group'>
+                        <label htmlFor='name'>Name</label>
+                        <Field className="text-field" id="name" name="name" type="name"/>
+                    </div>
 
-                <div className='input-group'>
-                    <label htmlFor='role'>Role</label>
-                    <Field className="text-field" id="role" name="role" type="role"/>
-                </div>
+                    <div className='input-group'>
+                        <label htmlFor='role'>Role</label>
+                        <Field className="text-field" id="role" name="role" type="role"/>
+                    </div>
 
-                 <div className='input-group'>
-                    <label htmlFor='birthdate'>Date of birth</label>
-                    <Field className="birthdate" id="birthdate" name="birthdate" type="birthdate" />
-                </div>
+                    <div className='input-group'>
+                        <label htmlFor='birthdate'>Date of birth</label>
+                        <Field className="birthdate" id="birthdate" name="birthdate" type="birthdate" />
+                    </div>
 
-                <button type="submit" className="secondary-btn">Save</button>
-                <button onClick={closeModal}>Cancel</button>
-            </Form>
-        </Formik>
+                    <button type="submit" className="secondary-btn">Save</button>
+                    <button onClick={handleClose}>Cancel</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
