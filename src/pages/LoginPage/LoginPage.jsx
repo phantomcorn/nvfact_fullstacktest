@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from '../../features/auth/authSlice.js';
 import { useLoginMutation, useRegisterMutation } from "../../features/auth/authApiSlice.js"
 import "./LoginPage.scss"
+import { Formik, Field, Form } from 'formik';
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -17,10 +18,9 @@ export default function LoginPage() {
     const [register, registerMutationProps] = useRegisterMutation()
 
     //Login
-    async function handleLogin(e) {
-        e.preventDefault()
+    async function handleLogin(values) {
         try {
-            const resp = await login({email: userRef.current, password: passRef.current}).unwrap()
+            const resp = await login(values).unwrap()
 
             if (resp.token) { //user has verified their account and is admin
                 dispatch(setCredentials(resp))
@@ -64,19 +64,37 @@ export default function LoginPage() {
 
     return (
         <div className="login-page">
-            <div className="email">
-                <h6> Email </h6>
-                <input onChange={(e) => {userRef.current = e.target.value}}/>
-            </div>
-            <div className="password">
-                <h6> Password </h6>
-                <input type="password" onChange={(e) => {passRef.current = e.target.value}}/>
-            </div>
-            <button onClick={handleLogin}>Log In</button>
-            <button onClick={handleRegister} >Register</button>
-            {msg && 
-                <caption>STATUS: {msg}</caption>
-            }
+
+            <Formik
+                initialValues={{
+                    email: "",
+                    password: ""
+                }}
+                onSubmit={async(values) => {handleLogin(values)}}
+            >
+                <Form className='login-form'>
+                    <div className='login-form-header bold'>
+                        <h3>Admin Portal</h3>
+                    </div>
+                    <div className="login-form-field">
+                        <div className='input-group'>
+                            <label htmlFor='email'>Email</label>
+                            <Field className="text-field" id="email" name="email" type="email" placeholder="John@gmail.com"/>
+                        </div>
+                    
+                        <div className='input-group'>
+                            <label htmlFor='password'>Password</label>
+                            <Field className="text-field" id="password" name="password" type="password" placeholder="123123"/>
+                        </div>
+
+                        <button type="submit">Log In</button>
+                    </div>
+                    {msg && 
+                        <caption className='err-msg'>{msg}</caption>
+                    }
+                </Form>  
+            </Formik>           
+            
         </div>
     )
 }
