@@ -122,6 +122,8 @@ const login = asyncHandler(async (req,res) => {
         maxAge: 6 * 60 * 60 * 1000//set to match refreshToken expiry (6h in ms)
     })
 
+    if (user.role !== "ADMIN" || !user.isActive) return res.status(400).send({message: "Invalid access"})
+
     //user did verify their email => login as normal
     res.status(200).json({
         name: user.name,
