@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { setCredentials } from '../../features/auth/authSlice.js';
 import { useLoginMutation, useRegisterMutation } from "../../features/auth/authApiSlice.js"
-
+import "./LoginPage.scss"
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -63,7 +63,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="App">
+        <div className="login-page">
             <div className="email">
                 <h6> Email </h6>
                 <input onChange={(e) => {userRef.current = e.target.value}}/>
