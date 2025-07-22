@@ -54,7 +54,7 @@ app.use("/", authRoute)
     Any request made to <BASE_URL>/api/user/ is directed to authRoute
     Handles getting user data
 */
-app.use("/users", userRoute)
+app.use("/users", verifyJWT, userRoute)
 
 
 // Any other request are rejected
