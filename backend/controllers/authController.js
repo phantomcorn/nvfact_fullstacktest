@@ -130,7 +130,7 @@ const login = asyncHandler(async (req,res) => {
     })  
 })
 
-// @route GET /api/auth/refresh
+// @route GET /refresh
 const refresh = (req,res) => { 
 
     const cookies = req.cookies
@@ -168,7 +168,7 @@ const refresh = (req,res) => {
     )
 }
 
-// @route POST /api/auth/logout
+// @route POST /logout
 // If exist, clear browser's jwt cookie
 const logout = (req,res) => {
     const cookies = req.cookies

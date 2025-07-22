@@ -24,13 +24,13 @@ const router = express.Router();
 router.post("/login", loginLimiter, login)
 
 /*
-    <BASE_URL>/api/auth/refresh
+    <BASE_URL>/refresh
     Generate a new access token when expired
 */
 router.get("/refresh", refresh) 
 
 /*  
-    <BASE_URL>/api/auth/logout
+    <BASE_URL>/logout
     Clear jwt cookie (refresh token), if exist
 */
 router.post("/logout", logout) 
