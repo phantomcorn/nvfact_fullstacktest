@@ -43,6 +43,12 @@ export default function Dashboard() {
         setShowModal(true)
     },[])
 
+    const handleCreate = (e) => {
+        e.preventDefault()
+        setSelected(null)
+        setShowModal(true)
+    }
+
     const handleQueryChange = (e, key) => {
         let val = e.target.value === "" ? null : e.target.value
 
@@ -74,7 +80,12 @@ export default function Dashboard() {
             <div className={`dashboard ${showModal? "blur" : ""}`}>
                 <div>
                     <h1> Welcome back, {myInfo.name} </h1>
-                    <button className="warning-btn" onClick={handleLogout}> Sign out </button>
+                    <div className="flex justify-between">
+                         <button className="warning-btn" onClick={handleLogout}> Sign out </button>
+                        <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
+                            <Icon variant={"plus"} strokeColor="white"/> New 
+                        </button>
+                    </div>
                 </div>
                 
 
