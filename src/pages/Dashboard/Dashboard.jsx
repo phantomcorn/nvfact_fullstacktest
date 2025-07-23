@@ -13,9 +13,12 @@ export default function Dashboard() {
     const [showModal, setShowModal] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
     const [selected, setSelected] = useState(null)
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState({
+        query: "",
+        status: null,
+        role: null
+    })
     const myInfo = useSelector(selectMyInfo)
-
     const { data, isLoading, isError } = useGetUserInfoQuery(undefined, {
         pollingInterval: 5 * 60 * 1000, //Retrieve information every 5 minutes
         refetchOnFocus: true,
@@ -38,22 +41,33 @@ export default function Dashboard() {
         e.preventDefault()
         setSelected(user)
         setShowModal(true)
-        
     },[])
+
+    const handleQueryChange = (e, key) => {
+        let val = e.target.value === "" ? null : e.target.value
+
+        setQuery((prev) => (
+            {...prev, [key] : val}
+        ))
+    }
 
     if (isError) return <div> Error </div>
     if (isLoading) return <div> Loading... </div>
 
-    const filtered = useMemo(() => {
+    const filtered = data.filter(({name, email, role, isActive}) => {
+        let res = true
+        if (query.query) {
+            const q = query.query.toLocaleLowerCase()
+            res = res && (name.toLowerCase().startsWith(q) || email.toLowerCase().startsWith(q))
+        }
+        if (query.role) res = res && role === query.role
 
-        const q = query.toLowerCase()
-        if (!q) return data
-
-        return data.filter(({name, email}) => (
-            name.toLowerCase().includes(q) || email.toLowerCase().includes(q)
-        ))
-
-    },[data,query])
+        if (query.status) {
+            const toBool = query.status === "true" ? true : false
+            res = res && isActive === toBool
+        }
+        return res
+    })
 
     return (
         <>
@@ -66,7 +80,7 @@ export default function Dashboard() {
 
                 <div className="user-table">
                     <div className="flex filters">
-                        <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)}/>
+                        <input type="text" placeholder="Search" onChange={(e) => handleQueryChange(e, "query")}/>
                         <Icon variant="chevron-down" strokeColor="white" onClick={() => setShowFilter((prev) => !prev)}/>
                     </div>
 
@@ -76,17 +90,19 @@ export default function Dashboard() {
 
                             <div className="flex">
                                 <h6>Role:</h6>
-                                <select>
-                                    <option>ADMIN</option>
-                                    <option>USER</option>
+                                <select onChange={(e) => handleQueryChange(e, "role")}>
+                                    <option value={""}>-</option>
+                                    <option value={"ADMIN"}>ADMIN</option>
+                                    <option value={"USER"}>USER</option>
                                 </select>
                             </div>
 
                             <div className="flex"> 
                                 <h6>STATUS:</h6>
-                                <select>
-                                    <option>ACTIVE</option>
-                                    <option>INACTIVE</option>
+                                <select onChange={(e) => handleQueryChange(e, "status")}>
+                                    <option value={""}>-</option>
+                                    <option value={"true"}>ACTIVE</option>
+                                    <option value={"false"}>INACTIVE</option>
                                 </select>
                             </div>
 
@@ -102,18 +118,15 @@ export default function Dashboard() {
                     </div>
                     <div className="users">
                     {filtered && filtered.map((user,idx) => (
-                        <>
-                            <div key={`user-${idx}`} className="select-user"> 
-                                <div className={`isActive ${user.isActive ? "active" : "inactive"}`}>
-                                    {user.isActive ? "Active" : "Inactive"}
-                                </div>
-                                <div>{user.email}</div>
-                                <div>{user.name}</div>
-                                <div>{user.role}</div>
-                                <button className="edit-btn primary-btn" onClick={(e) => handleEditUser(e,user)}> Edit </button>
+                        <div key={`user-${idx}`} className="select-user"> 
+                            <div className={`isActive ${user.isActive ? "active" : "inactive"}`}>
+                                {user.isActive ? "Active" : "Inactive"}
                             </div>
-                            
-                        </>
+                            <div>{user.email}</div>
+                            <div>{user.name}</div>
+                            <div>{user.role}</div>
+                            <button className="edit-btn primary-btn" onClick={(e) => handleEditUser(e,user)}> Edit </button>
+                        </div>
                     ))}
                     </div>
                 </div>
