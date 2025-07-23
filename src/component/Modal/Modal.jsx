@@ -8,7 +8,7 @@ export default function Modal({user, closeModal}) {
     const [update, updateProps] = useUpdateUserMutation()
     const [create, createProps] = useCreateUserMutation()
 
-    const handleUpdate = async (values) => {
+    const handleUpdate = async ({password, ...values}) => {
         try {
             await update({id: user._id, ...values}).unwrap()
         } catch (err) {
@@ -39,7 +39,7 @@ export default function Modal({user, closeModal}) {
         role: "",
         birthdate: "",
         password: "",
-        status: ""
+        isActive: ""
     }
 
     if (user) { //editing mode
@@ -47,7 +47,7 @@ export default function Modal({user, closeModal}) {
         initialValues.name = user.name
         initialValues.role = user.role
         initialValues.birthdate = user.birthdate,
-        initialValues.status = user.isActive
+        initialValues.isActive = user.isActive
     }
 
     return (
@@ -123,7 +123,7 @@ export default function Modal({user, closeModal}) {
 
                             <div className='flex flex-col'>
                                 <label htmlFor='active'>Active</label>
-                                <Field className="text-field" id="active" name="status" type="checkbox"/>
+                                <Field className="text-field" id="active" name="isActive" type="checkbox"/>
                             </div>
 
                         </div>
@@ -142,7 +142,6 @@ export default function Modal({user, closeModal}) {
                             {createProps.status.isSuccess && 
                                 <div> Create succesful</div>
                             }
-                            <div></div>
                             <button type="submit" className="secondary-btn">Save</button>
                             <button className="bg-slate-500" onClick={handleClose}>Cancel</button>
                         </div>
