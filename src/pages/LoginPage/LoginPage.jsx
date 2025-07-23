@@ -63,7 +63,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="login-page">
+        <div className="min-w-full min-h-full flex items-center justify-center flex-col">
 
             <Formik
                 initialValues={{
@@ -77,17 +77,17 @@ export default function LoginPage() {
                         <h3>Admin Portal</h3>
                     </div>
                     <div className="login-form-field">
-                        <div className='input-group'>
+                        <div className='min-w-full input-group'>
                             <label htmlFor='email'>Email</label>
                             <Field className="text-field" id="email" name="email" type="email" placeholder="John@gmail.com"/>
                         </div>
                     
-                        <div className='input-group'>
+                        <div className='min-w-full input-group'>
                             <label htmlFor='password'>Password</label>
                             <Field className="text-field" id="password" name="password" type="password" placeholder="123123"/>
                         </div>
 
-                        <button type="submit">Log In</button>
+                        <button className="secondary-btn" type="submit">Log In</button>
                     </div>
                     {msg && 
                         <caption className='err-msg'>{msg}</caption>

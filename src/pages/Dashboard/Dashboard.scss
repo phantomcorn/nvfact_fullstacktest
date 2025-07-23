@@ -16,6 +16,11 @@
     color: white;
 }
 
+.filters {
+    justify-content: space-between;
+    align-items: center;
+}
+
 .users {
     display: flex;
     flex-direction: column;

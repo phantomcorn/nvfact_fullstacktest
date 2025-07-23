@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { selectMyInfo } from "../../features/auth/authSlice.js"
 import { useCallback, useMemo, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
+import Icon from "../../component/Icon/Icon.jsx"
 import "./Dashboard.scss"
 export default function Dashboard() {
 
@@ -40,10 +41,6 @@ export default function Dashboard() {
         
     },[])
 
-    useEffect(() => {
-        console.log(showModal)
-    },[showModal])
-
     if (isError) return <div> Error </div>
     if (isLoading) return <div> Loading... </div>
 
@@ -68,7 +65,34 @@ export default function Dashboard() {
                 
 
                 <div className="user-table">
-                    <input type="text" placeholder="Search"/>
+                    <div className="flex filters">
+                        <input type="text" placeholder="Search" onChange={(e) => setQuery(e.target.value)}/>
+                        <Icon variant="chevron-down" strokeColor="white" onClick={() => setShowFilter((prev) => !prev)}/>
+                    </div>
+
+                    {showFilter && 
+                        <div className="filter-options">
+
+
+                            <div className="flex">
+                                <h6>Role:</h6>
+                                <select>
+                                    <option>ADMIN</option>
+                                    <option>USER</option>
+                                </select>
+                            </div>
+
+                            <div className="flex"> 
+                                <h6>STATUS:</h6>
+                                <select>
+                                    <option>ACTIVE</option>
+                                    <option>INACTIVE</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    }
+                    
 
                     <div className="table-heading">
                         <div> Status </div>
