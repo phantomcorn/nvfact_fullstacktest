@@ -3,15 +3,16 @@ import { useSendLogoutMutation } from "../../features/auth/authApiSlice.js"
 import { useGetUserInfoQuery } from "../../features/user/userApiSlice.js"
 import { useNavigate } from "react-router-dom"
 import { selectMyInfo } from "../../features/auth/authSlice.js"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import "./Dashboard.scss"
 export default function Dashboard() {
 
     const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
+    const [showFilter, setShowFilter] = useState(false)
     const [selected, setSelected] = useState(null)
-
+    const [query, setQuery] = useState("")
     const myInfo = useSelector(selectMyInfo)
 
     const { data, isLoading, isError } = useGetUserInfoQuery(undefined, {
@@ -46,6 +47,17 @@ export default function Dashboard() {
     if (isError) return <div> Error </div>
     if (isLoading) return <div> Loading... </div>
 
+    const filtered = useMemo(() => {
+
+        const q = query.toLowerCase()
+        if (!q) return data
+
+        return data.filter(({name, email}) => (
+            name.toLowerCase().includes(q) || email.toLowerCase().includes(q)
+        ))
+
+    },[data,query])
+
     return (
         <>
             <div className={`dashboard ${showModal? "blur" : ""}`}>
@@ -65,7 +77,7 @@ export default function Dashboard() {
                         <div> Role </div>
                     </div>
                     <div className="users">
-                    {data && data.map((user,idx) => (
+                    {filtered && filtered.map((user,idx) => (
                         <>
                             <div key={`user-${idx}`} className="select-user"> 
                                 <div className={`isActive ${user.isActive ? "active" : "inactive"}`}>
