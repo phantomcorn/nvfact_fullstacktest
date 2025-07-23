@@ -10,7 +10,7 @@ const getUsers = asyncHandler(async (req, res) => {
     const user = await User.find()
         .select("-password -__v") //exclude password and __v field
     //return result to frontend
-    res.status(200).send(user)
+    res.status(200).json(user)
     
 })
 
