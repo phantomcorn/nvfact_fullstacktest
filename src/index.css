@@ -22,7 +22,6 @@ body {
 
 input {
   font-family: "Kanit", sans-serif;
-  padding: 0;
   padding: 8px 12px;
   box-sizing: border-box;
   border: 2px solid #9fa7ab;
@@ -36,8 +35,21 @@ input {
 
 input[type=text]:focus,
 input[type=email]:focus,
+input[type=date]:focus,
 input[type=password]:focus {
   border-color:#2E3B41 ;
+}
+
+select {
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 2px solid #9fa7ab;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+  height: 64px;
+  font-size: 20px;
+  border-radius: 10px;
 }
 
 .primary-btn {
@@ -73,12 +85,12 @@ input[type=password]:focus {
 
 button {
   height: 48px;
-  width: 88px;
+  padding: 0 12px;
+  min-width: 88px;
   appearance: none;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-  display: inline-block;
   font-family: "Kanit", sans-serif;
   font-size: 16px;
   text-align: center;
@@ -98,11 +110,6 @@ button:focus:not(:focus-visible):not(.focus-visible) {
   outline: none;
 }
 
-button:focus {
-  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
-  outline: none;
-}
-
 button:disabled {
   background-color: #94d3a2;
   border-color: rgba(27, 31, 35, .1);
@@ -110,20 +117,6 @@ button:disabled {
   cursor: default;
 }
 
-button:active {
-  background-color: #298e46;
-  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
-}
-
 .shadow {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-}
-
-.row {
-  display: flex;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
 }

@@ -77,21 +77,24 @@ export default function LoginPage() {
                         <h3>Admin Portal</h3>
                     </div>
                     <div className="login-form-field">
-                        <div className='min-w-full input-group'>
+                        <div className='min-w-full flex flex-col'>
                             <label htmlFor='email'>Email</label>
                             <Field className="text-field" id="email" name="email" type="email" placeholder="John@gmail.com"/>
                         </div>
                     
-                        <div className='min-w-full input-group'>
+                        <div className='min-w-full flex flex-col'>
                             <label htmlFor='password'>Password</label>
                             <Field className="text-field" id="password" name="password" type="password" placeholder="123123"/>
                         </div>
 
-                        <button className="secondary-btn" type="submit">Log In</button>
+                        <div className='flex items-center gap-4'>
+                            {msg && 
+                                <div className='text-red-500'>{msg}</div>
+                            }
+                            <button className="secondary-btn" type="submit">Log In</button>
+                        </div>
                     </div>
-                    {msg && 
-                        <caption className='err-msg'>{msg}</caption>
-                    }
+                    
                 </Form>  
             </Formik>           
             

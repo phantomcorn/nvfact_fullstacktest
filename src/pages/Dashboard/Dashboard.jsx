@@ -3,7 +3,7 @@ import { useSendLogoutMutation } from "../../features/auth/authApiSlice.js"
 import { useGetUserInfoQuery } from "../../features/user/userApiSlice.js"
 import { useNavigate } from "react-router-dom"
 import { selectMyInfo } from "../../features/auth/authSlice.js"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
 import "./Dashboard.scss"
@@ -77,13 +77,13 @@ export default function Dashboard() {
 
     return (
         <>
-            <div className={`dashboard ${showModal? "blur" : ""}`}>
+            <div className={`dashboard flex flex-col gap-10 ${showModal? "blur" : ""}`}>
                 <div>
                     <h1> Welcome back, {myInfo.name} </h1>
                     <div className="flex justify-between">
                          <button className="warning-btn" onClick={handleLogout}> Sign out </button>
                         <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
-                            <Icon variant={"plus"} strokeColor="white"/> New 
+                            <Icon variant={"plus"} strokeColor="white"/> New User
                         </button>
                     </div>
                 </div>
