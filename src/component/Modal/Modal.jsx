@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useCreateUserMutation, useUpdateUserMutation } from "../../features/user/userApiSlice";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./Modal.scss"
 import Icon from "../Icon/Icon";
 import { validationSchema } from "./ModalHelper";
@@ -10,6 +10,15 @@ export default function Modal({user, closeModal}) {
     const [update, updateProps] = useUpdateUserMutation()
     const [create, createProps] = useCreateUserMutation()
     const [statusMsg, setStatusMsg] = useState("")
+    const [isEdit, setIsEdit] = useState(false)
+    const [initialValues, setInitialValues] = useState({
+        email: "",
+        name: "",
+        role: "",
+        birthdate: "",
+        password: "",
+        isActive: ""
+    })
 
     const handleUpdate = async ({password, ...values}) => {
         setStatusMsg("Updating...")
@@ -39,22 +48,26 @@ export default function Modal({user, closeModal}) {
         closeModal()
     }
 
-    const initialValues = {
-        email: "",
-        name: "",
-        role: "",
-        birthdate: "",
-        password: "",
-        isActive: ""
+    const handleEdit = (event) => {
+        event.preventDefault()
+        setIsEdit(true)
     }
 
-    if (user) { //editing mode
-        initialValues.email = user.email
-        initialValues.name = user.name
-        initialValues.role = user.role
-        initialValues.birthdate = user.birthdate,
-        initialValues.isActive = user.isActive
-    }
+    useEffect(() => {
+        if (user) {
+            setInitialValues({
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                birthdate: user.birthdate,
+                password: "",
+                isActive: user.isActive
+            })
+            setIsEdit(false)
+        } else {
+            setIsEdit(true)
+        }
+    },[user])
 
     return (
         <div className="overlay" onClick={handleClose}>
@@ -73,7 +86,7 @@ export default function Modal({user, closeModal}) {
                         <div className="flex edit-form-row">
                             <div className='flex flex-col'>
                                 <label htmlFor='email'>Email</label>
-                                <Field className="text-field" id="email" name="email" type="email"/>
+                                <Field className="text-field" id="email" name="email" type="email" disabled={!isEdit}/>
                                 {errors.email && touched.email ? (
                                     <div className="text-red-500">{errors.email}</div>
                                 ) : null}
@@ -81,7 +94,7 @@ export default function Modal({user, closeModal}) {
 
                             <div className='flex flex-col'>
                                 <label htmlFor='name'>Name</label>
-                                <Field className="text-field" id="name" name="name" type="text"/>
+                                <Field className="text-field" id="name" name="name" type="text" disabled={!isEdit}/>
                                 {errors.name && touched.name ? (
                                     <div className="text-red-500">{errors.name}</div>
                                 ) : null}
@@ -89,7 +102,7 @@ export default function Modal({user, closeModal}) {
                             
                             <div className='flex flex-col'>
                                 <label htmlFor='password'>Password</label>
-                                <Field disabled={user ? true : false} className="text-field" id="password" name="password" type="password"/>
+                                <Field disabled={user ? true : false} className="text-field" id="password" name="password" type="password" disabled={!isEdit}/>
                                 {errors.password && touched.password ? (
                                     <div className="text-red-500">{errors.password}</div>
                                 ) : null}
@@ -100,7 +113,7 @@ export default function Modal({user, closeModal}) {
 
                             <div className='flex flex-col'>
                                 <label htmlFor='birthdate'>Date of birth</label>
-                                <Field className="birthdate" id="birthdate" name="birthdate" type="date" />
+                                <Field className="birthdate" id="birthdate" name="birthdate" type="date" disabled={!isEdit}/>
                                 {errors.birthdate && touched.birthdate ? (
                                     <div className="text-red-500">{errors.birthdate}</div>
                                 ) : null}
@@ -108,7 +121,7 @@ export default function Modal({user, closeModal}) {
 
                             <div className='flex flex-col'>
                                 <label htmlFor='role'>Role</label>
-                                <Field as="select" className="text-field" id="role" name="role">
+                                <Field as="select" className="text-field" id="role" name="role" disabled={!isEdit}>
                                     <option value="">-</option>
                                     <option value="USER">USER</option>
                                     <option value="ADMIN">ADMIN</option>
@@ -120,7 +133,7 @@ export default function Modal({user, closeModal}) {
 
                             <div className='flex flex-col'>
                                 <label htmlFor='active'>Active</label>
-                                <Field className="text-field" id="active" name="isActive" type="checkbox"/>
+                                <Field className="text-field" id="active" name="isActive" type="checkbox" disabled={!isEdit}/>
                             </div>
 
                         </div>
@@ -133,7 +146,14 @@ export default function Modal({user, closeModal}) {
                                 <div className="text-green-500"> {statusMsg} </div>
                             }   
                             <div className="flex gap-2 items-center">
-                                <button type="submit" className="secondary-btn">{user ? "Update" : "Create"}</button>
+                                {isEdit 
+                                    ? 
+                                    <button type="submit" className="secondary-btn">{user ? "Update" : "Create"}</button>
+                                    :
+                                    <button type="button" className="primary-btn"  onClick={handleEdit}>Edit</button>
+                                }
+                                
+                                
                                 <button className="bg-slate-500" onClick={handleClose}>Cancel</button>
                             </div>
                         </div>
