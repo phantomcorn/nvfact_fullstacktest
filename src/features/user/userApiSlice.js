@@ -4,6 +4,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getUserInfo: builder.query({
             query: () => "/users",
+            providesTags: ["User"] // Result cached with the label User (Is retrieved again in cache only if subscribed)
+            /*
+                If a mutation endpoint is called and provides an `invalidateTags: ["User"]`,
+                Any cached query providing tag of "User" will be invalidated and 
+                will trigger a refetch
+            */
         }),
 
         createUser: builder.mutation({
@@ -21,6 +27,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
                 body
             }),
+            // async onQueryStarted(arg,{dispatch,queryFulfilled}) {
+            //     try {
+            //         await queryFulfilled
+            //         console.log('updateUser succeeded → forcing getUserInfo refetch')
+            //         // you can even manually dispatch a refetch if you like:
+            //         dispatch(apiSlice.util.invalidateTags(['User']))
+            //         } catch (err) {
+            //         console.error('updateUser failed', err)
+            //     }
+            // },
             invalidatesTags: ["User"]
         }),
 
@@ -32,12 +48,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ["User"]
         }),
 
-        provideTags: ["User"] // Result cached with the label User (Is retrieved again in cache only if subscribed)
-        /*
-            If a mutation endpoint is called and provides an `invalidateTags: ["User"]`,
-            Any cached query providing tag of "User" will be invalidated and 
-            the next call to it will be refetched from server instead
-        */
+        
 
     })
 })
