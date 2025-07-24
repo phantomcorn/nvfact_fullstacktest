@@ -87,14 +87,16 @@ export default function Dashboard() {
                         </button>
                     </div>
                 </div>
-                
 
-                <div className="user-table">
+                <div className="table-container shadow"> 
+                
+                    {/* Search bar */}
                     <div className="flex filters">
                         <input type="text" placeholder="Search" onChange={(e) => handleQueryChange(e, "query")}/>
                         <Icon variant="chevron-down" strokeColor="white" onClick={() => setShowFilter((prev) => !prev)}/>
                     </div>
 
+                    {/* Filter bar */}
                     {showFilter && 
                         <div className="filter-options">
 
@@ -119,27 +121,38 @@ export default function Dashboard() {
 
                         </div>
                     }
-                    
-
-                    <div className="table-heading">
-                        <div> Status </div>
-                        <div> Email </div>
-                        <div> Name </div>
-                        <div> Role </div>
-                    </div>
-                    <div className="users">
-                    {filtered && filtered.map((user,idx) => (
-                        <div key={`user-${idx}`} className="select-user"> 
-                            <div className={`isActive ${user.isActive ? "active" : "inactive"}`}>
-                                {user.isActive ? "Active" : "Inactive"}
-                            </div>
-                            <div>{user.email}</div>
-                            <div>{user.name}</div>
-                            <div>{user.role}</div>
-                            <button className="edit-btn primary-btn" onClick={(e) => handleEditUser(e,user)}> Edit </button>
-                        </div>
-                    ))}
-                    </div>
+                    <table className="min-w-full table-auto border-separate border-spacing-y-2">    
+                        <thead className="bg-green-100">
+                            <tr>
+                                <th className="px-4 py-2 text-left">Status</th>
+                                <th className="px-4 py-2 text-left">Email</th>
+                                <th className="px-4 py-2 text-left">Name</th>
+                                <th className="px-4 py-2 text-left">Role</th>
+                            </tr>
+                        </thead>
+                            
+                        <tbody>
+                        {filtered && filtered.map((u,idx) => (
+                            <tr key={`user-${idx}`} className="select-user cursor-pointer"> 
+                                <td className="px-4 py-2">
+                                    <span
+                                        className={`inline-block px-2 rounded ${
+                                            u.isActive ? 'bg-green-200' : 'bg-red-200'
+                                        }`}
+                                    >
+                                        {u.isActive ? 'Active' : 'Inactive'}
+                                    </span>
+                                </td>
+                                <td className="px-4 py-2">{u.email}</td>
+                                <td className="px-4 py-2">{u.name}</td>
+                                <td className="px-4 py-2">{u.role}</td>
+                                <button className="edit-btn primary-btn" onClick={(e) => handleEditUser(e,u)}> 
+                                    <Icon variant={"edit"} strokeColor="white"/>
+                                </button>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
                 </div>
                 
             </div>
