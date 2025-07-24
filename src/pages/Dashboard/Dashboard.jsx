@@ -133,7 +133,11 @@ export default function Dashboard() {
                             
                         <tbody>
                         {filtered && filtered.map((u,idx) => (
-                            <tr key={`user-${idx}`} className="select-user cursor-pointer"> 
+                            <tr 
+                                key={`user-${idx}`} 
+                                className="select-user cursor-pointer" 
+                                onClick={(e) => handleEditUser(e,u)}
+                            > 
                                 <td className="px-4 py-2">
                                     <span
                                         className={`inline-block px-2 rounded ${
@@ -146,9 +150,6 @@ export default function Dashboard() {
                                 <td className="px-4 py-2">{u.email}</td>
                                 <td className="px-4 py-2">{u.name}</td>
                                 <td className="px-4 py-2">{u.role}</td>
-                                <button className="edit-btn primary-btn" onClick={(e) => handleEditUser(e,u)}> 
-                                    <Icon variant={"edit"} strokeColor="white"/>
-                                </button>
                             </tr>
                         ))}
                         </tbody>
