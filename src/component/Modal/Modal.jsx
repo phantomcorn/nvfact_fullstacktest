@@ -5,6 +5,7 @@ import "./Modal.scss"
 import Icon from "../Icon/Icon";
 import { validationSchema } from "./ModalHelper";
 import { useTranslation } from "react-i18next";
+import fields from "./Modal.config";
 
 export default function Modal({user, closeModal}) {
 
@@ -85,61 +86,54 @@ export default function Modal({user, closeModal}) {
                             <div> {user ? t("Edit Form") : t("New user")} </div>
                             <Icon variant={"x"} onClick={handleClose} />
                         </div>
-                        <div className="flex edit-form-row">
-                            <div className='flex flex-col'>
-                                <label htmlFor='email'>{t("Email")}</label>
-                                <Field className="text-field" id="email" name="email" type="email" disabled={!isEdit}/>
-                                {errors.email && touched.email ? (
-                                    <div className="text-red-500">{errors.email}</div>
-                                ) : null}
-                            </div>
-
-                            <div className='flex flex-col'>
-                                <label htmlFor='name'>{t("Name")}</label>
-                                <Field className="text-field" id="name" name="name" type="text" disabled={!isEdit}/>
-                                {errors.name && touched.name ? (
-                                    <div className="text-red-500">{errors.name}</div>
-                                ) : null}
-                            </div>
-                            
-                            <div className='flex flex-col'>
-                                <label htmlFor='password'>{t("Password")}</label>
-                                <Field disabled={(isEdit && !user) ? false : true } className="text-field" id="password" name="password" type="password"/>
-                                {errors.password && touched.password ? (
-                                    <div className="text-red-500">{errors.password}</div>
-                                ) : null}
-                            </div>
-                        </div>
                         
-                        <div className="flex edit-form-row">
+                        {fields.map((row,idx) => (
+                            <div key={`form-row-${idx+1}`} className="flex edit-form-row">
+                                
+                                {row.map(({label, id, type})=> (
+                                    <div className='flex flex-col'>
+                                        <label htmlFor={id}>{t(label)}</label>
 
-                            <div className='flex flex-col'>
-                                <label htmlFor='birthdate'>{t("Date of birth")}</label>
-                                <Field className="birthdate" id="birthdate" name="birthdate" type="date" disabled={!isEdit}/>
-                                {errors.birthdate && touched.birthdate ? (
-                                    <div className="text-red-500">{errors.birthdate}</div>
-                                ) : null}
+                                        {id === "password" &&
+                                            <Field 
+                                                disabled={(isEdit && !user) ? false : true } 
+                                                className="text-field" 
+                                                id={id}
+                                                name={id} 
+                                                type={id}
+                                            />
+                                        }
+
+                                        {id === "email" &&
+                                            <Field className="text-field" id={id} name={id} type={type} disabled/>
+                                        }
+
+                                        {id === "role" &&
+                                            <Field as="select" className="text-field" id={id} name={id} disabled={!isEdit}>
+                                                <option value="">-</option>
+                                                <option value="USER">USER</option>
+                                                <option value="ADMIN">ADMIN</option>
+                                            </Field>
+                                        }
+
+                                        {id === "isActive" &&
+                                            <Field className="text-field" id={id} name={id} type="checkbox" disabled={!isEdit}/>
+                                        }                   
+
+                                        {/* Rest */}
+                                        {id !== "isActive" && id !== "role" && id !== "password" && id !== "email" && 
+                                            <Field className="text-field" id={id} name={id} type={type} disabled={!isEdit}/>
+                                        }
+
+                                        {errors[id] && touched[id] ? (
+                                            <div className="text-red-500">{errors[id]}</div>
+                                        ) : null}
+                                    </div>
+                                ))}
+
                             </div>
-
-                            <div className='flex flex-col'>
-                                <label htmlFor='role'>{t("Role")}</label>
-                                <Field as="select" className="text-field" id="role" name="role" disabled={!isEdit}>
-                                    <option value="">-</option>
-                                    <option value="USER">USER</option>
-                                    <option value="ADMIN">ADMIN</option>
-                                </Field>
-                                {errors.role && touched.role ? (
-                                    <div className="text-red-500">{errors.role}</div>
-                                ) : null}
-                            </div>
-
-                            <div className='flex flex-col'>
-                                <label htmlFor='active'>{t("Active")}</label>
-                                <Field className="text-field" id="active" name="isActive" type="checkbox" disabled={!isEdit}/>
-                            </div>
-
-                        </div>
-
+                        ))}
+                            
                         <div className="flex gap-5  justify-end items-center">
                             {(updateProps.isError || createProps.isError) &&
                                 <div className="text-red-500"> {statusMsg} </div>
@@ -154,7 +148,6 @@ export default function Modal({user, closeModal}) {
                                     :
                                     <button type="button" className="primary-btn"  onClick={handleEdit}>{t("Edit")}</button>
                                 }
-                                
                                 
                                 <button className="bg-slate-500" onClick={handleClose}>{t("Cancel")}</button>
                             </div>
