@@ -5,10 +5,12 @@ import { setCredentials } from '../../features/auth/authSlice.js';
 import { useLoginMutation, useRegisterMutation } from "../../features/auth/authApiSlice.js"
 import "./LoginPage.scss"
 import { Formik, Field, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { t, i18n } = useTranslation("login");
 
     const userRef = useRef("")
     const passRef = useRef("")
@@ -74,7 +76,7 @@ export default function LoginPage() {
             >
                 <Form className='login-form'>
                     <div className='login-form-header bold'>
-                        <h3>Admin Portal</h3>
+                        <h3>{t("Admin Portal")}</h3>
                     </div>
                     <div className="login-form-field">
                         <div className='min-w-full flex flex-col'>
