@@ -7,6 +7,8 @@ import login_th from "./locales/th/login.json"
 import dashboard_en from "./locales/en/dashboard.json"
 import dashboard_th from "./locales/th/dashboard.json"
 
+import modal_en from "./locales/en/modal.json"
+import modal_th from "./locales/th/modal.json"
 
 i18n
   .use(initReactI18next)
@@ -14,14 +16,16 @@ i18n
     resources: {
       en: {
         login: login_en,
-        dashboard: dashboard_en
+        dashboard: dashboard_en,
+        modal: modal_en
       },
       th: {
         login: login_th,
-        dashboard: dashboard_th
+        dashboard: dashboard_th,
+        modal: modal_th
       }
     },
-    ns: ['login','dashboard'],
+    ns: ['login','dashboard','modal'],
     defaultNS: 'login',
     fallbackLng: 'en',
     debug: true,
