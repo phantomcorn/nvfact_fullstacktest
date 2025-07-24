@@ -29,7 +29,7 @@ export default function Modal({user, closeModal}) {
             const res = await update({id: user._id, ...values}).unwrap()
             setStatusMsg(res.message)
         } catch (err) {
-            console.log(err)
+            setStatusMsg(err.data.message)
         }
     }
 
@@ -41,7 +41,7 @@ export default function Modal({user, closeModal}) {
             const res = await create(values).unwrap()
             setStatusMsg(res.message)
         } catch (err) {
-            console.log(err)
+            setStatusMsg(err.data.message)
         }
     }
 
@@ -94,7 +94,7 @@ export default function Modal({user, closeModal}) {
                                     <div className='flex flex-col'>
                                         <label htmlFor={id}>{t(label)}</label>
 
-                                        {id === "password" &&
+                                        {id === "password" && //Only allow editing when creating new user 
                                             <Field 
                                                 disabled={(isEdit && !user) ? false : true } 
                                                 className="text-field" 
@@ -104,11 +104,11 @@ export default function Modal({user, closeModal}) {
                                             />
                                         }
 
-                                        {id === "email" &&
-                                            <Field className="text-field" id={id} name={id} type={type} disabled/>
+                                        {id === "email" && //Only allow editing when creating new user
+                                            <Field className="text-field" id={id} name={id} type={type} disabled={user}/>
                                         }
 
-                                        {id === "role" &&
+                                        {id === "role" && //Render a dropdown
                                             <Field as="select" className="text-field" id={id} name={id} disabled={!isEdit}>
                                                 <option value="">-</option>
                                                 <option value="USER">USER</option>
@@ -116,7 +116,7 @@ export default function Modal({user, closeModal}) {
                                             </Field>
                                         }
 
-                                        {id === "isActive" &&
+                                        {id === "isActive" && //Render a checkbox
                                             <Field className="text-field" id={id} name={id} type="checkbox" disabled={!isEdit}/>
                                         }                   
 
