@@ -3,6 +3,7 @@ import { useCreateUserMutation, useUpdateUserMutation } from "../../features/use
 import { useState } from "react"
 import "./Modal.scss"
 import * as Yup from "yup"
+import Icon from "../Icon/Icon";
 
 export default function Modal({user, closeModal}) {
 
@@ -77,7 +78,10 @@ export default function Modal({user, closeModal}) {
             >
                 {({ errors, touched }) => (
                     <Form className="modal shadow" onClick={(e) => e.stopPropagation()}>
-                        <div> {user ? "Edit Form" : "New user"} </div>
+                        <div className="flex flex-row justify-between">
+                            <div> {user ? "Edit Form" : "New user"} </div>
+                            <Icon variant={"x"} onClick={handleClose} />
+                        </div>
                         <div className="flex edit-form-row">
                             <div className='flex flex-col'>
                                 <label htmlFor='email'>Email</label>
