@@ -102,7 +102,7 @@ export default function Modal({user, closeModal}) {
                             
                             <div className='flex flex-col'>
                                 <label htmlFor='password'>Password</label>
-                                <Field disabled={user ? true : false} className="text-field" id="password" name="password" type="password"/>
+                                <Field disabled={(isEdit && !user) ? false : true } className="text-field" id="password" name="password" type="password"/>
                                 {errors.password && touched.password ? (
                                     <div className="text-red-500">{errors.password}</div>
                                 ) : null}
