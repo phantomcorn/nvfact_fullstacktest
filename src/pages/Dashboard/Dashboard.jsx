@@ -7,9 +7,11 @@ import { useCallback, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
 import "./Dashboard.scss"
+import { useTranslation } from "react-i18next"
 export default function Dashboard() {
 
     const navigate = useNavigate()
+    const {t, i18n} = useTranslation("dashboard")
     const [showModal, setShowModal] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
     const [selected, setSelected] = useState(null)
@@ -79,11 +81,11 @@ export default function Dashboard() {
         <>
             <div className={`dashboard flex flex-col gap-10 ${showModal? "blur" : ""}`}>
                 <div>
-                    <h1> Welcome back, {myInfo.name} </h1>
+                    <h1> {t("Welcome back,")} {myInfo.name} </h1>
                     <div className="flex justify-between">
-                         <button className="warning-btn" onClick={handleLogout}> Sign out </button>
+                         <button className="warning-btn" onClick={handleLogout}> {t("Sign out")} </button>
                         <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
-                            <Icon variant={"plus"} strokeColor="white"/> New User
+                            <Icon variant={"plus"} strokeColor="white"/> {t("New User")}
                         </button>
                     </div>
                 </div>
@@ -102,20 +104,20 @@ export default function Dashboard() {
 
 
                             <div className="flex">
-                                <h6>Role:</h6>
+                                <h6>{t("Role")}:</h6>
                                 <select onChange={(e) => handleQueryChange(e, "role")}>
                                     <option value={""}>-</option>
-                                    <option value={"ADMIN"}>ADMIN</option>
-                                    <option value={"USER"}>USER</option>
+                                    <option value={"ADMIN"}>{t("ADMIN")}</option>
+                                    <option value={"USER"}>{t("USER")}</option>
                                 </select>
                             </div>
 
                             <div className="flex"> 
-                                <h6>STATUS:</h6>
+                                <h6>{t("Status")}:</h6>
                                 <select onChange={(e) => handleQueryChange(e, "status")}>
                                     <option value={""}>-</option>
-                                    <option value={"true"}>ACTIVE</option>
-                                    <option value={"false"}>INACTIVE</option>
+                                    <option value={"true"}>{t("ACTIVE")}</option>
+                                    <option value={"false"}>{t("INACTIVE")}</option>
                                 </select>
                             </div>
 
@@ -124,10 +126,10 @@ export default function Dashboard() {
                     <table className="min-w-full table-auto border-collapse">    
                         <thead className="bg-green-100">
                             <tr>
-                                <th className="px-4 py-2 text-left">Status</th>
-                                <th className="px-4 py-2 text-left">Email</th>
-                                <th className="px-4 py-2 text-left">Name</th>
-                                <th className="px-4 py-2 text-left">Role</th>
+                                <th className="px-4 py-2 text-left">{t("Status")}</th>
+                                <th className="px-4 py-2 text-left">{t("Email")}</th>
+                                <th className="px-4 py-2 text-left">{t("Name")}</th>
+                                <th className="px-4 py-2 text-left">{t("Role")}</th>
                             </tr>
                         </thead>
                             
