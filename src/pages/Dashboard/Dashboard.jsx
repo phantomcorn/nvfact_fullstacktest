@@ -8,6 +8,7 @@ import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
 import "./Dashboard.scss"
 import { useTranslation } from "react-i18next"
+import LanguageSelect from "../../component/LanguageSelect/LanguageSelect.jsx"
 export default function Dashboard() {
 
     const navigate = useNavigate()
@@ -83,10 +84,13 @@ export default function Dashboard() {
                 <div>
                     <h1> {t("Welcome back,")} {myInfo.name} </h1>
                     <div className="flex justify-between">
-                         <button className="warning-btn" onClick={handleLogout}> {t("Sign out")} </button>
-                        <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
-                            <Icon variant={"plus"} strokeColor="white"/> {t("New User")}
-                        </button>
+                        <button className="warning-btn" onClick={handleLogout}> {t("Sign out")} </button>
+                        <div className="flex flex-row gap-5 items-center">
+                            <LanguageSelect/>
+                            <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
+                                <Icon variant={"plus"} strokeColor="white"/> {t("New User")}
+                            </button>
+                        </div>
                     </div>
                 </div>
 

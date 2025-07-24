@@ -58,7 +58,7 @@ export default function LoginPage() {
                 onSubmit={async(values) => {handleLogin(values)}}
             >
                 <Form className='login-form'>
-                    <div className='login-form-header bold'>
+                    <div className='login-form-header bold flex flex-row justify-between items-center'>
                         <h3>{t("Admin Portal")}</h3>
                         <LanguageSelect/>
                     </div>
