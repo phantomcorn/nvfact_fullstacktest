@@ -46,24 +46,6 @@ export default function LoginPage() {
         } 
     }
 
-    //Register
-    async function handleRegister(e) {
-        e.preventDefault()
-        try {
-            const resp = await register({email: userRef.current, password: passRef.current}).unwrap()
-            setMsg(resp.message)
-        } catch (err) {
-            if (!err.status) {
-                setMsg("No server response")
-            } else if (err.status == 400) {
-                setMsg("Missing username or password field")
-            } else if (err.status == 409) {
-                setMsg("The email you have provided has already taken. Please use a different email.")
-            } else {
-                setMsg(err.data?.message)
-            }
-        } 
-    }
 
     return (
         <div className="min-w-full min-h-full flex items-center justify-center flex-col">
