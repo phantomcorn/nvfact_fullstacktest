@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useCreateUserMutation, useUpdateUserMutation } from "../../features/user/userApiSlice";
+import { useState } from "react"
 import "./Modal.scss"
 import * as Yup from "yup"
 
@@ -7,21 +8,25 @@ export default function Modal({user, closeModal}) {
 
     const [update, updateProps] = useUpdateUserMutation()
     const [create, createProps] = useCreateUserMutation()
+    const [statusMsg, setStatusMsg] = useState("")
 
     const handleUpdate = async ({password, ...values}) => {
+        setStatusMsg("Updating...")
         try {
-            await update({id: user._id, ...values}).unwrap()
+            const res = await update({id: user._id, ...values}).unwrap()
+            setStatusMsg(res.message)
         } catch (err) {
             console.log(err)
         }
     }
 
     const handleCreate = async (values) => {
-
+        setStatusMsg("Creating...")
         values.birthdate = new Date(values.birthdate)
 
         try {
-            await create(values).unwrap()
+            const res = await create(values).unwrap()
+            setStatusMsg(res.message)
         } catch (err) {
             console.log(err)
         }
@@ -128,22 +133,17 @@ export default function Modal({user, closeModal}) {
 
                         </div>
 
-                        <div className="button-options">
-                            {updateProps.status.isLoading && 
-                                <div> Updating.. </div>
+                        <div className="flex gap-5  justify-end items-center">
+                            {(updateProps.isError || createProps.isError) &&
+                                <div className="text-red-500"> {statusMsg} </div>
                             }
-                            {updateProps.status.isSuccess && 
-                                <div> Update succesful</div>
-                            }
-
-                            {createProps.status.isLoading && 
-                                <div> Creating... </div>
-                            }
-                            {createProps.status.isSuccess && 
-                                <div> Create succesful</div>
-                            }
-                            <button type="submit" className="secondary-btn">Save</button>
-                            <button className="bg-slate-500" onClick={handleClose}>Cancel</button>
+                            {(updateProps.isSuccess || createProps.isSuccess) &&
+                                <div className="text-green-500"> {statusMsg} </div>
+                            }   
+                            <div className="flex gap-2 items-center">
+                                <button type="submit" className="secondary-btn">{user ? "Update" : "Create"}</button>
+                                <button className="bg-slate-500" onClick={handleClose}>Cancel</button>
+                            </div>
                         </div>
                     </Form>
                 )}
