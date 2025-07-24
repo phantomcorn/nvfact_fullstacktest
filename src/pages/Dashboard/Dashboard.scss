@@ -2,25 +2,6 @@
     padding: 40px;
 }
 
-.user-table {
-    background-color: #2ea44f;
-    padding: 20px;
-    border-radius: 24px;
-}
-
-.table-heading {
-    display: flex;
-    justify-content: space-around;
-    height: 64px;
-    align-items: center;
-    color: white;
-}
-
-.filters {
-    justify-content: space-between;
-    align-items: center;
-}
-
 .users {
     display: flex;
     flex-direction: column;
@@ -28,37 +9,20 @@
  
 }
 .select-user {
-    display: flex;
     background-color: white;
-    justify-content: space-around;
-    height: 64px;
-    align-items: center;
     border-radius: 16px;
     position: relative;
+    height: 64px;
 }
 
-.invisible {
-    visibility: hidden;
+.select-user:hover {
+    background-color: #E8F4F7;
 }
 
 .edit-btn {
     position: absolute;
     right: 0;
     margin-right: 8px;
-}
-
-.isActive {
-    border-radius: 50%;
-    padding: 12px;
-    border: 2px solid currentColor;
-}
-
-.active {
-    color: #2ea44f;
-}
-
-.inactive {
-    color: #6B828C
 }
 
 .blur {

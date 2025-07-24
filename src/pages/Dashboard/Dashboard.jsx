@@ -88,10 +88,10 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className="table-container shadow"> 
+                <div className="shadow flex flex-col gap-5 rounded-3xl p-5 bg-[#2ea44f]"> 
                 
                     {/* Search bar */}
-                    <div className="flex filters">
+                    <div className="flex justify-between items-center">
                         <input type="text" placeholder="Search" onChange={(e) => handleQueryChange(e, "query")}/>
                         <Icon variant="chevron-down" strokeColor="white" onClick={() => setShowFilter((prev) => !prev)}/>
                     </div>
@@ -121,7 +121,7 @@ export default function Dashboard() {
 
                         </div>
                     }
-                    <table className="min-w-full table-auto border-separate border-spacing-y-2">    
+                    <table className="min-w-full table-auto border-collapse">    
                         <thead className="bg-green-100">
                             <tr>
                                 <th className="px-4 py-2 text-left">Status</th>
