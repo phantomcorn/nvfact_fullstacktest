@@ -1,5 +1,13 @@
 {
 
-    "Admin Portal": "Admin Portal"
+    "Admin Portal": "Admin Portal",
+    "Email": "Email",
+    "Password": "Password",
+    "Log in": "Log in",
+
+    "No server response" : "No server response",
+    "Missing username or password": "Missing username or password",
+    "Incorrect password": "Incorrect password",
+    "No account found": "No account found"
     
 }

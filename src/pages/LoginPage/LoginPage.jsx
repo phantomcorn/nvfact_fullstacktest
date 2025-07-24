@@ -6,6 +6,7 @@ import { useLoginMutation, useRegisterMutation } from "../../features/auth/authA
 import "./LoginPage.scss"
 import { Formik, Field, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
+import LanguageSelect from '../../component/LanguageSelect/LanguageSelect.jsx';
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -77,23 +78,24 @@ export default function LoginPage() {
                 <Form className='login-form'>
                     <div className='login-form-header bold'>
                         <h3>{t("Admin Portal")}</h3>
+                        <LanguageSelect/>
                     </div>
                     <div className="login-form-field">
                         <div className='min-w-full flex flex-col'>
-                            <label htmlFor='email'>Email</label>
+                            <label htmlFor='email'>{t("Email")}</label>
                             <Field className="text-field" id="email" name="email" type="email" placeholder="John@gmail.com"/>
                         </div>
                     
                         <div className='min-w-full flex flex-col'>
-                            <label htmlFor='password'>Password</label>
+                            <label htmlFor='password'>{t("Password")}</label>
                             <Field className="text-field" id="password" name="password" type="password" placeholder="123123"/>
                         </div>
 
                         <div className='flex items-center gap-4'>
                             {msg && 
-                                <div className='text-red-500'>{msg}</div>
+                                <div className='text-red-500'>{t(msg)}</div>
                             }
-                            <button className="secondary-btn" type="submit">Log In</button>
+                            <button className="secondary-btn" type="submit">{t("Log in")}</button>
                         </div>
                     </div>
                     

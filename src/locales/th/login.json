@@ -1,3 +1,12 @@
 {
-    "Admin Portal": "พอร์ทัลแอดมิน" 
+    "Admin Portal": "พอร์ทัลแอดมิน",
+    "Email": "อีเมล์",
+    "Password": "รหัสผ่าน",
+    "Log in": "เข้าสู่ระบบ",
+
+    "No server response" : "ไม่มีการตอบสนองจาก เซิฟเวอร์",
+    "Missing username or password": "Missing username or password",
+    "Incorrect password": "รหัสผ่านไม่ถูกต้อง",
+    "No account found": "ไม่พบบัญชีผู้ใช่"
+
 }
