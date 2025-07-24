@@ -35,10 +35,12 @@ export default function Modal({user, closeModal}) {
 
     const handleCreate = async (values) => {
         setStatusMsg("Creating...")
-        values.birthdate = new Date(values.birthdate)
-
+        const formattedData = {
+            birthdate: new Date(values.birthdate),
+            ...values
+        }
         try {
-            const res = await create(values).unwrap()
+            const res = await create(formattedData).unwrap()
             setStatusMsg(res.message)
         } catch (err) {
             setStatusMsg(err.data.message)
