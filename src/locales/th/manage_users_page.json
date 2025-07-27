@@ -1,5 +1,4 @@
 {
-    "Sign out": "ออกจากระบบ",
     "New User": "เพิ่มบัญชี",
     "Status": "สถานะ",
     "Role": "ตำแหน่ง",
@@ -8,6 +7,5 @@
     "ADMIN": "ADMIN",
     "USER": "USER",
     "ACTIVE": "ACTIVE",
-    "INACTIVE": "INACTIVE",
-    "Welcome back," : "ยินดีต้อนรับ"
+    "INACTIVE": "INACTIVE"
 }
