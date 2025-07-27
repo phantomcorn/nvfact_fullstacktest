@@ -57,12 +57,12 @@ export default function LoginPage() {
                 }}
                 onSubmit={async(values) => {handleLogin(values)}}
             >
-                <Form className='login-form'>
-                    <div className='login-form-header bold flex flex-row justify-between items-center'>
+                <Form className='login-form shadow flex flex-col items-end'>
+                    <div className='login-form-header w-full bold flex flex-row justify-between items-center'>
                         <h3>{t("Admin Portal")}</h3>
                         <LanguageSelect/>
                     </div>
-                    <div className="login-form-field">
+                    <div className="login-form-field flex flex-col items-end w-full">
                         <div className='min-w-full flex flex-col'>
                             <label htmlFor='email'>{t("Email")}</label>
                             <Field className="text-field" id="email" name="email" type="email" placeholder="John@gmail.com"/>
