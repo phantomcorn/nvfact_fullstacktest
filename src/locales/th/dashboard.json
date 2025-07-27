@@ -1,13 +1,3 @@
 {
-    "Sign out": "ออกจากระบบ",
-    "New User": "เพิ่มบัญชี",
-    "Status": "สถานะ",
-    "Role": "ตำแหน่ง",
-    "Email": "อีเมล์",
-    "Name": "ชื่อ",
-    "ADMIN": "ADMIN",
-    "USER": "USER",
-    "ACTIVE": "ACTIVE",
-    "INACTIVE": "INACTIVE",
-    "Welcome back," : "ยินดีต้อนรับ"
+    
 }

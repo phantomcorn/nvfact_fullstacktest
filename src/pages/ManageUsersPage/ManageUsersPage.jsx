@@ -6,13 +6,13 @@ import { selectMyInfo } from "../../features/auth/authSlice.js"
 import { useCallback, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
-import "./Dashboard.scss"
+import "./ManageUsersPage.scss"
 import { useTranslation } from "react-i18next"
 import LanguageSelect from "../../component/LanguageSelect/LanguageSelect.jsx"
-export default function Dashboard() {
+export default function ManageUsersPage() {
 
     const navigate = useNavigate()
-    const {t, i18n} = useTranslation("dashboard")
+    const {t, i18n} = useTranslation("manage_users_page")
     const [showModal, setShowModal] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
     const [selected, setSelected] = useState(null)
@@ -80,7 +80,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <div className={`dashboard flex flex-col gap-10 ${showModal? "blur" : ""}`}>
+            <div className={`manage-users-page flex flex-col gap-10 ${showModal? "blur" : ""}`}>
                 <div>
                     <h1> {t("Welcome back,")} {myInfo.name} </h1>
                     <div className="flex justify-between">

@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VerifyEmail from './pages/VerifyEmail';
 import NoPage from './pages/NoPage';
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
+import ManageUsersPage from "./pages/ManageUsersPage/ManageUsersPage.jsx"
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import PersistLogin from './features/auth/PersistLogin.jsx';
@@ -16,7 +16,7 @@ function App() {
           <Routes>
             {/* Authenticated path */}
             <Route element={<PersistLogin/>}>
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="/manage" element={<ManageUsersPage/>} />
             </Route>
         
             <Route path="/" element={<LoginPage />} />
