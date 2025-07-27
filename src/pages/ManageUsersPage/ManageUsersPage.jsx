@@ -1,17 +1,11 @@
-import { useSelector } from "react-redux"
-import { useSendLogoutMutation } from "../../features/auth/authApiSlice.js"
 import { useGetUserInfoQuery } from "../../features/user/userApiSlice.js"
-import { useNavigate } from "react-router-dom"
-import { selectMyInfo } from "../../features/auth/authSlice.js"
 import { useCallback, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
 import "./ManageUsersPage.scss"
 import { useTranslation } from "react-i18next"
-import LanguageSelect from "../../component/LanguageSelect/LanguageSelect.jsx"
 export default function ManageUsersPage() {
 
-    const navigate = useNavigate()
     const {t, i18n} = useTranslation("manage_users_page")
     const [showModal, setShowModal] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
@@ -21,24 +15,11 @@ export default function ManageUsersPage() {
         status: null,
         role: null
     })
-    const myInfo = useSelector(selectMyInfo)
     const { data, isLoading, isError } = useGetUserInfoQuery(undefined, {
         pollingInterval: 5 * 60 * 1000, //Retrieve information every 5 minutes
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     })
-
-    const [sendLogout, logoutMutationProps] = useSendLogoutMutation()
-
-    async function handleLogout(e) {
-        e.preventDefault()
-        try {
-            sendLogout().unwrap
-            navigate("/")
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     const handleEditUser = useCallback((e,user) => {
         e.preventDefault()
@@ -80,18 +61,11 @@ export default function ManageUsersPage() {
 
     return (
         <>
-            <div className={`manage-users-page flex flex-col gap-10 ${showModal? "blur" : ""}`}>
-                <div>
-                    <h1> {t("Welcome back,")} {myInfo.name} </h1>
-                    <div className="flex justify-between">
-                        <button className="warning-btn" onClick={handleLogout}> {t("Sign out")} </button>
-                        <div className="flex flex-row gap-5 items-center">
-                            <LanguageSelect/>
-                            <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
-                                <Icon variant={"plus"} strokeColor="white"/> {t("New User")}
-                            </button>
-                        </div>
-                    </div>
+            <div className={`manage-users-page flex flex-col gap-6 ${showModal? "blur" : ""}`}>
+                <div className="flex flex-row gap-5 items-center justify-end">      
+                        <button className="secondary-btn flex items-center justify-center gap-2" onClick={handleCreate}>
+                            <Icon variant={"plus"} strokeColor="white"/> {t("New User")}
+                        </button>
                 </div>
 
                 <div className="shadow flex flex-col gap-5 rounded-3xl p-5 bg-[#2ea44f]"> 

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VerifyEmail from './pages/VerifyEmail';
 import NoPage from './pages/NoPage';
 import ManageUsersPage from "./pages/ManageUsersPage/ManageUsersPage.jsx"
+import AuthLayout from './component/AuthLayout/AuthLayout.jsx';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import PersistLogin from './features/auth/PersistLogin.jsx';
@@ -16,7 +17,9 @@ function App() {
           <Routes>
             {/* Authenticated path */}
             <Route element={<PersistLogin/>}>
+              <Route element={<AuthLayout/>}>
                 <Route path="/manage" element={<ManageUsersPage/>} />
+              </Route> 
             </Route>
         
             <Route path="/" element={<LoginPage />} />
