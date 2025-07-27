@@ -25,8 +25,8 @@ export default function Navbar() {
     return (
         <div className="bg-[#2ea44f] h-22 flex flex-row justify-between p-5"> 
             <div className="flex flex-row items-center gap-5">
-                <div>{t("Dashboard")}</div>
-                <div>{t("Manage Users")}</div>
+                <div onClick={() => navigate("/dashboard")} className="cursor-pointer">{t("Dashboard")}</div>
+                <div onClick={() => navigate("/manage")} className="cursor-pointer">{t("Manage Users")}</div>
             </div>
             <div className="flex flex-row items-center gap-5">
                 <LanguageSelect/>

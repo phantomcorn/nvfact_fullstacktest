@@ -8,6 +8,7 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import PersistLogin from './features/auth/PersistLogin.jsx';
 import LoginPage from './pages/LoginPage/LoginPage.jsx';
+import Dashboard from './pages/Dashboard/Dashboard.jsx';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route element={<PersistLogin/>}>
               <Route element={<AuthLayout/>}>
                 <Route path="/manage" element={<ManageUsersPage/>} />
+                <Route path="/dashboard" element={<Dashboard/>}/>
               </Route> 
             </Route>
         
