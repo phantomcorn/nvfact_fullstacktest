@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import VerifyEmail from './pages/VerifyEmail';
-import NoPage from './pages/NoPage';
+import VerifyEmail from './pages/VerifyEmail.jsx';
+import NoPage from './pages/NoPage.jsx';
 import ManageUsersPage from "./pages/ManageUsersPage/ManageUsersPage.jsx"
 import AuthLayout from './component/AuthLayout/AuthLayout.jsx';
-import { store } from './app/store';
+import { store } from './app/store.js';
 import { Provider } from 'react-redux';
 import PersistLogin from './features/auth/PersistLogin.jsx';
 import LoginPage from './pages/LoginPage/LoginPage.jsx';

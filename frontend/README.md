@@ -1,9 +1,9 @@
 # 📦 Moornmo Full-Stack Assignment Submission
 
-**Candidate Name**:  
-**Email Address**:  
+**Candidate Name**:  Phantakorn Prarusudamkerng
+**Email Address**:  jj.phantakorn@outlook.com
 **GitHub Repository (if any)**:  
-**Submission Date**:  
+**Submission Date**:  Friday 25th July 2025
 
 ---
 
@@ -13,12 +13,12 @@ I am using MERN stack for this project. The specifics details are:
 
 - Backend framework used:  Express (NodeJS)
 - Frontend framework used:  ReactJS + ThreeJS
-- State management library:  Redux-Toolkit
+- State management library:  RTK Query (Redux-Toolkit)
 - Authentication method:  JWT
 - Deployment method (if any):  
 - Database: MongoDB (mongoose library)
 
-Different smart factory software for different clients may have different requirements therefore structure cannot be guaranteed hence the choice of noSQL database. This will also help with consistent workflow since we do not have to swap between different databases.
+Different smart factory software for different clients may have different requirements therefore structure cannot be guaranteed hence the choice of noSQL database. This will also help with consistent workflow since we do not have to swap between different tech stack.
 
 ---
 
@@ -36,11 +36,11 @@ Provide a simple flow or diagram if possible.
 ## 🔐 3. Backend Details
 
 - Endpoints implemented:
-  - [ ] POST /login
-  - [ ] GET /users
-  - [ ] POST /users
-  - [ ] PUT /users/:id
-  - [ ] DELETE /users/:id
+  - [x] POST /login
+  - [x] GET /users
+  - [x] POST /users
+  - [x] PUT /users/:id
+  - [x] DELETE /users/:id
 
 - JWT applied: (Yes/No)  
 - Swagger or API Docs: (Yes/No)  
@@ -48,9 +48,8 @@ Provide a simple flow or diagram if possible.
 Instructions to run backend:
 ```bash
 # e.g.
-cd backend
 npm install
-npm run dev
+npm run backdev
 ```
 
 ---
@@ -58,17 +57,16 @@ npm run dev
 ## 💻 4. Frontend Details
 
 - Components implemented:
-  - [ ] Login page
-  - [ ] User table with filter
-  - [ ] User create/edit form
+  - [x] Login page
+  - [x] User table with filter
+  - [x] User create/edit form
   - [ ] Dashboard (Three.js or visual summary)
 
 Instructions to run frontend:
 ```bash
 # e.g.
-cd frontend
 npm install
-npm run dev
+npm run front
 ```
 
 ---
@@ -76,13 +74,31 @@ npm run dev
 ## 🧮 5. SQL Answers
 
 ### Q1: Daily login count (past 7 days)
+
+Assuming we do not count login from the same user more than once
 ```sql
--- Your SQL query here
+SELECT COUNT(DISTINCT (user_id)) as Weekly login count 
+FROM user_logins
+WHERE login_time >= DATEADD(day,-7, GETDATE())
+
 ```
 
 ### Q2: Detect 3 consecutive login days
 ```sql
--- Your SQL query here
+WITH dates AS (
+  SELECT user_id, CAST(login_time AS DATE) AS d
+  FROM user_logins
+  GROUP BY user_id, CAST(login_time AS DATE)
+)
+SELECT DISTINCT d1.user_id
+FROM dates d1
+JOIN dates d2 
+  ON d2.user_id = d1.user_id 
+  AND d2.d = DATEADD(day, 1, d1.d)
+JOIN dates d3 
+  ON d3.user_id = d1.user_id 
+  AND d3.d = DATEADD(day, 2, d1.d);
+
 ```
 
 ---
@@ -92,7 +108,12 @@ npm run dev
 (Describe any assumptions made, mock data used, or areas you'd improve.)
 Hashed password field included in the database (In the file `Moornmo_Fullstack_Assignment_EN.md` password was not included in the fields requirement)
 
-Assume test marker will create their own MongoDB file
+Assume test marker will create their own MongoDB database
+Areas to improve:
+- Separate backend and frontend to its own git projects (for the sake of the assignment I stored it as 1 to keep things simple)
+- Add users table paging
+- On user first create, must verify email before admin can update status (ACTIVE/INACTIVE)
+- Improve layout (Responsive for mobile)
 
 ---
 
