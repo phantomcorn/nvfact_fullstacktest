@@ -1,5 +1,5 @@
 import { Formik, Form, Field } from "formik";
-import { useCreateUserMutation, useUpdateUserMutation } from "../../features/user/userApiSlice";
+import { useCreateUserMutation, useDeleteUserMutation, useUpdateUserMutation } from "../../features/user/userApiSlice";
 import { useEffect, useState } from "react"
 import "./Modal.scss"
 import Icon from "../Icon/Icon";
@@ -11,6 +11,7 @@ export default function Modal({user, closeModal}) {
 
     const [update, updateProps] = useUpdateUserMutation()
     const [create, createProps] = useCreateUserMutation()
+    const [remove, deleteProps] = useDeleteUserMutation()
     const [statusMsg, setStatusMsg] = useState("")
     const [isEdit, setIsEdit] = useState(false)
     const [initialValues, setInitialValues] = useState({
@@ -42,6 +43,17 @@ export default function Modal({user, closeModal}) {
         try {
             const res = await create(formattedData).unwrap()
             setStatusMsg(res.message)
+        } catch (err) {
+            setStatusMsg(err.data.message)
+        }
+    }
+
+    const handleDelete = async () => {
+        setStatusMsg("Deleting...")
+        try {
+            const res = await remove({id: user._id}).unwrap()
+            setStatusMsg(res.message)
+            closeModal()
         } catch (err) {
             setStatusMsg(err.data.message)
         }
@@ -86,7 +98,12 @@ export default function Modal({user, closeModal}) {
                     <Form className="modal shadow" onClick={(e) => e.stopPropagation()}>
                         <div className="flex flex-row justify-between">
                             <div> {user ? t("Edit Form") : t("New user")} </div>
-                            <Icon variant={"x"} onClick={handleClose} />
+                            <div className="flex flex-row items-center gap-5">
+                                <div className="warning-btn p-3 rounded-lg" onClick={handleDelete}>
+                                    <Icon variant="bin" strokeColor="white"/> 
+                                </div>
+                                <Icon variant={"x"} onClick={handleClose} />
+                            </div>
                         </div>
                         
                         {fields.map((row,idx) => (
@@ -137,12 +154,12 @@ export default function Modal({user, closeModal}) {
                         ))}
                             
                         <div className="flex gap-5  justify-end items-center">
-                            {(updateProps.isError || createProps.isError) &&
+                            {(updateProps.isError || createProps.isError || deleteProps.isError) &&
                                 <div className="text-red-500"> {statusMsg} </div>
                             }
-                            {(updateProps.isSuccess || createProps.isSuccess) &&
+                            {(updateProps.isSuccess || createProps.isSuccess || deleteProps.isSuccess) &&
                                 <div className="text-green-500"> {statusMsg} </div>
-                            }   
+                            } 
                             <div className="flex gap-2 items-center">
                                 {isEdit 
                                     ? 
