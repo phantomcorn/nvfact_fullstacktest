@@ -78,11 +78,11 @@ export default function ManageUsersPage() {
 
                     {/* Filter bar */}
                     {showFilter && 
-                        <div className="filter-options">
+                        <div className="filter-options flex flex-col gap-5">
 
 
-                            <div className="flex">
-                                <h6>{t("Role")}:</h6>
+                            <div className="flex items-center gap-2">
+                                <h6 className="min-w-15">{t("Role")}:</h6>
                                 <select onChange={(e) => handleQueryChange(e, "role")}>
                                     <option value={""}>-</option>
                                     <option value={"ADMIN"}>{t("ADMIN")}</option>
@@ -90,8 +90,8 @@ export default function ManageUsersPage() {
                                 </select>
                             </div>
 
-                            <div className="flex"> 
-                                <h6>{t("Status")}:</h6>
+                            <div className="flex items-center gap-2"> 
+                                <h6 className="min-w-15">{t("Status")}:</h6>
                                 <select onChange={(e) => handleQueryChange(e, "status")}>
                                     <option value={""}>-</option>
                                     <option value={"true"}>{t("ACTIVE")}</option>
