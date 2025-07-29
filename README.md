@@ -30,33 +30,34 @@ Describe your folder/component structure and reasoning.
 I have separated my front and backend to each having their own `package.json` file. This is to separate front/backend dependencies and also means you can run each one individually making them much more robust and scalable.
 
 Here is the root folder structure:
+```
 .
 ├── README.md
 ├── backend
 └── frontend
-
+```
 ### Backend folder structure:
-
+```
 backend
 ├── controllers
-│   ├── `authController.js`
-│   └── `userController.js`
+│   ├── authController.js
+│   └── userController.js
 ├── db
-│   └── `database.js`
+│   └── database.js
 ├── middleware
-│   ├── `loginLimiter.js`
-│   └── `verifyJWT.js`
+│   ├── loginLimiter.js
+│   └── verifyJWT.js
 ├── models
-│   └── `userModel.js`
-├── `package-lock.json`
-├── `package.json`
+│   └── userModel.js
+├── package-lock.json
+├── package.json
 ├── routes
-│   ├── `authRoute.js`
-│   └── `userRoute.js`
+│   ├── authRoute.js
+│   └── userRoute.js
 └── utils
-│    └── `validateEmail.js`
-└── `server.js`
-
+│    └── validateEmail.js
+└── server.js
+```
 - `server.js` is the single entrypoint of the backend. Triggers connection to the database (MongoDB) and configure any routes and middleware.
 
 - When an API endpoint is called, the routing goes from:
@@ -69,89 +70,90 @@ backend
 ##### Adding new feature
 
 When extending new feature, simply define new files like so:
-
+```
 backend
 ├── models
-│ └── `<feature>Model.js` # Mongoose schema for `<feature>`
+│ └── <feature>Model.js # Mongoose schema for <feature>
 ├── controllers
-│ └── `<feature>Controller.js` # Business logic for `<feature>`
+│ └── <feature>Controller.js # Business logic for <feature>
 ├── routes
-│ └── `<feature>Route.js` # HTTP endpoints for `<feature>`
+│ └── <feature>Route.js # HTTP endpoints for <feature>
+```
 
 ### Frontend folder structure:
-
+```
 frontend
 ├── public
 ├── src
-│   ├── `App.css`
-│   ├── `App.jsx`
+│   ├── App.css
+│   ├── App.jsx
 │   ├── app
-│   │   ├── `apiSlice.js`
-│   │   └── `store.js`
+│   │   ├── apiSlice.js
+│   │   └── store.js
 │   ├── component
 │   │   ├── AuthLayout
-│   │   │   └── `AuthLayout.jsx`
+│   │   │   └── AuthLayout.jsx
 │   │   ├── Icon
-│   │   │   ├── `Icon.jsx`
-│   │   │   ├── `Icon.scss`
-│   │   │   └── `IconUtils.jsx`
+│   │   │   ├── Icon.jsx
+│   │   │   ├── Icon.scss
+│   │   │   └── IconUtils.jsx
 │   │   ├── LanguageSelect
-│   │   │   └── `LanguageSelect.jsx`
+│   │   │   └── LanguageSelect.jsx
 │   │   ├── Modal
-│   │   │   ├── `Modal.config.js`
-│   │   │   ├── `Modal.jsx`
-│   │   │   ├── `Modal.scss`
-│   │   │   └── `ModalHelper.js`
+│   │   │   ├── Modal.config.js
+│   │   │   ├── Modal.jsx
+│   │   │   ├── Modal.scss
+│   │   │   └── ModalHelper.js
 │   │   ├── Navbar
-│   │   │   └── `Navbar.jsx`
+│   │   │   └── Navbar.jsx
 │   │   └── PieChart
-│   │   │   └── `PieChart.jsx`
+│   │   │   └── PieChart.jsx
 │   ├── features
 │   │   ├── auth
-│   │   │   ├── `PersistLogin.jsx`
-│   │   │   ├── `authApiSlice.js`
-│   │   │   └── `authSlice.js`
+│   │   │   ├── PersistLogin.jsx
+│   │   │   ├── authApiSlice.js
+│   │   │   └── authSlice.js
 │   │   └── user
-│   │   │   └── `userApiSlice.js`
+│   │   │   └── userApiSlice.js
 │   ├── hooks
-│   │   └── `usePersist.js`
-│   ├── `i18n.js`
-│   ├── `index.css`
-│   ├── `index.jsx`
+│   │   └── usePersist.js
+│   ├── i18n.js
+│   ├── index.css
+│   ├── index.jsx
 │   ├── locales
 │   │   ├── en
-│   │   │   ├── `dashboard.json`
-│   │   │   ├── `login.json`
-│   │   │   ├── `manage_users_page.json`
-│   │   │   ├── `modal.json`
-│   │   │   └── `navbar.json`
+│   │   │   ├── dashboard.json
+│   │   │   ├── login.json
+│   │   │   ├── manage_users_page.json
+│   │   │   ├── modal.json
+│   │   │   └── navbar.json
 │   │   └── th
-│   │       ├── `dashboard.json`
-│   │       ├── `login.json`
-│   │       ├── `manage_users_page.json`
-│   │       ├── `modal.json`
-│   │       └── `navbar.json`
-│   ├── `logo.svg`
+│   │       ├── dashboard.json
+│   │       ├── login.json
+│   │       ├── manage_users_page.json
+│   │       ├── modal.json
+│   │       └── navbar.json
+│   ├── logo.svg
 │   ├── pages
 │   │   ├── Dashboard
-│   │   │   ├── `Dashboard.jsx`
-│   │   │   └── `DashboardHelper.jsx`
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── DashboardHelper.jsx
 │   │   ├── LoginPage
-│   │   │   ├── `LoginPage.jsx`
-│   │   │   └── `LoginPage.scss`
+│   │   │   ├── LoginPage.jsx
+│   │   │   └── LoginPage.scss
 │   │   ├── ManageUsersPage
-│   │   │   ├── `ManageUsersPage.jsx`
-│   │   │   └── `ManageUsersPage.scss`
-│   │   ├── `NoPage.jsx`
-│   │   └── `VerifyEmail.jsx`
-│   └── `reportWebVitals.js`
-├── `tsconfig.json`
-├── `vite.config.ts`
-├── `eslint.config.js`
-├── `index.html`
-├── `package-lock.json`
-└── `package.json`
-
+│   │   │   ├── ManageUsersPage.jsx
+│   │   │   └── ManageUsersPage.scss
+│   │   ├── NoPage.jsx
+│   │   └── VerifyEmail.jsx
+│   └── reportWebVitals.js
+├── tsconfig.json
+├── vite.config.ts
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+└── package.json
+```
 - `App.jsx` is your main React entrypoint
 
 - `public/` contains purely static files.
@@ -314,8 +316,8 @@ Areas to improve:
 ## 📂 8. Docker / i18n / Bonus Items
 
 - Dockerized: (Yes/No)  
-- i18n support (EN/TH): (Yes/No)  
-- Postman collection included: (Yes/No)  
+- i18n support (EN/TH): (Yes)  
+- Postman collection included: (Yes)  
 
 ---
 
