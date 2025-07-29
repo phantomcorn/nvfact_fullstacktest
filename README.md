@@ -1,8 +1,8 @@
 # 📦 Moornmo Full-Stack Assignment Submission
 
-**Candidate Name**:  Phantakorn Prarusudamkerng
-**Email Address**:  jj.phantakorn@outlook.com
-**GitHub Repository (if any)**:  
+**Candidate Name**:  Phantakorn Prarusudamkerng \
+**Email Address**:  jj.phantakorn@outlook.com \
+**GitHub Repository (if any)**:  \
 **Submission Date**:  Friday 25th July 2025
 
 ---
@@ -138,13 +138,14 @@ frontend
 ##### Adding new feature
 
 When adding new API endpoints:
-
+```
 frontend
 ├── src
 │   └── features
-│   │   └──`<feature>`
-│   │   │  ├── `<feature>ApiSlice.js`
-│   │   │  └── `<feature>Slice.js` (if applicable)
+│   │   └──<feature>
+│   │   │  ├── <feature>ApiSlice.js
+│   │   │  └── <feature>Slice.js (if applicable)
+```
 
 You may also want to add your `<feature>Slice` reducer to your `store.js` if needed.
 
