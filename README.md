@@ -85,68 +85,33 @@ backend
 frontend
 ├── public
 ├── src
-│   ├── App.css
 │   ├── App.jsx
+│   ├── App.css
+│   ├── reportWebVitals.js
+│   ├── i18n.js
+│   ├── index.css
+│   ├── index.jsx
+│   ├── logo.svg
 │   ├── app
 │   │   ├── apiSlice.js
 │   │   └── store.js
 │   ├── component
-│   │   ├── AuthLayout
-│   │   │   └── AuthLayout.jsx
-│   │   ├── Icon
-│   │   │   ├── Icon.jsx
-│   │   │   ├── Icon.scss
-│   │   │   └── IconUtils.jsx
-│   │   ├── LanguageSelect
-│   │   │   └── LanguageSelect.jsx
-│   │   ├── Modal
-│   │   │   ├── Modal.config.js
-│   │   │   ├── Modal.jsx
-│   │   │   ├── Modal.scss
-│   │   │   └── ModalHelper.js
-│   │   ├── Navbar
-│   │   │   └── Navbar.jsx
-│   │   └── PieChart
-│   │   │   └── PieChart.jsx
+│   │   ├── ...
+│   │   └── ...
 │   ├── features
 │   │   ├── auth
-│   │   │   ├── PersistLogin.jsx
-│   │   │   ├── authApiSlice.js
-│   │   │   └── authSlice.js
+│   │   │   └── ...
 │   │   └── user
-│   │   │   └── userApiSlice.js
+│   │       └── ...
 │   ├── hooks
-│   │   └── usePersist.js
-│   ├── i18n.js
-│   ├── index.css
-│   ├── index.jsx
+│   │   └── ...
 │   ├── locales
 │   │   ├── en
-│   │   │   ├── dashboard.json
-│   │   │   ├── login.json
-│   │   │   ├── manage_users_page.json
-│   │   │   ├── modal.json
-│   │   │   └── navbar.json
+│   │   │   └── ...
 │   │   └── th
-│   │       ├── dashboard.json
-│   │       ├── login.json
-│   │       ├── manage_users_page.json
-│   │       ├── modal.json
-│   │       └── navbar.json
-│   ├── logo.svg
-│   ├── pages
-│   │   ├── Dashboard
-│   │   │   ├── Dashboard.jsx
-│   │   │   └── DashboardHelper.jsx
-│   │   ├── LoginPage
-│   │   │   ├── LoginPage.jsx
-│   │   │   └── LoginPage.scss
-│   │   ├── ManageUsersPage
-│   │   │   ├── ManageUsersPage.jsx
-│   │   │   └── ManageUsersPage.scss
-│   │   ├── NoPage.jsx
-│   │   └── VerifyEmail.jsx
-│   └── reportWebVitals.js
+│   │       └── ...
+│   └── pages
+│       └── ...
 ├── tsconfig.json
 ├── vite.config.ts
 ├── eslint.config.js
