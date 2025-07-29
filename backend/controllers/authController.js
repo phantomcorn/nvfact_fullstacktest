@@ -79,20 +79,6 @@ const login = asyncHandler(async (req,res) => {
     //compare plain text (password) to hashed text (user.password)
     const match = await bcrypt.compare(password, user.password)
     if (!match) return res.status(400).send({message: "Incorrect password"})
-
-    //login credentials matched
-    // if (!user.didVerify) { //user has not verified their email
-    //     if (Date.now() > user.verifyTokenExpire) { //if verification link expired
-    //         const verificationToken = user.getVerificationToken()
-    //         const verificationLink = `${process.env.VITE_APP_BASE_URL}/verify-email?id=${user._id}&verifyToken=${verificationToken}`
-    //         await sendEmail(email, verificationLink)
-    //         //update account details to mongoDB  
-    //         user.save()
-    //         return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "We have sent you a new email verification, please verify them before you can use your account"})
-    //     } else { //email not verified (not expired)
-    //         return res.status(200).send({email: user.email, didVerify: user.didVerify, message: "Email not verified"})
-    //     }   
-    // } 
         
     //create(encode) access token
     const accessToken = jwt.sign(

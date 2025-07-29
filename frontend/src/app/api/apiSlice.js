@@ -32,9 +32,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       // retry original query with new token
       result = await baseQueryWithReauth(args, api, extraOptions)
 
-    } else {
+    } else { //no access token granted
 
-      if (refreshResult?.error?.status === 403) {
+      if (refreshResult?.error?.status === 403 || refreshResult?.error?.status === 401) {
         refreshResult.error.data.message = "Your login session has expired. Please login again"
       }
       return refreshResult

@@ -6,9 +6,7 @@ import { useSelector } from "react-redux";
 import { selectCurrToken } from "./authSlice";
 
 /*
-    Wrapper component for every pages we want to persis our login for
-    Redux does not hold our state on refresh 
-    Instead, we use the jwt cookie stored in our browser to regenerate our access token which can be used to authorize our login
+    Used when we have a "Remember me" checkbox
 */
 const PersistLogin = () => {
 
@@ -55,8 +53,6 @@ const PersistLogin = () => {
         */
         return () => effectRan.current = true
         
-        //To disable warnings
-        //eslint-disalble-next-line
     }, [])
 
     let content
