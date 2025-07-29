@@ -1,4 +1,4 @@
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "../../app/apiSlice";
 import { logout, setCredentials } from "./authSlice";
 /*  
     We inject auth-related api here using the injectEndpoints function into our apiSlice

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; //from "@reduxjs/toolkit/query/"" will not give you react hook for endpoints
-import { setCredentials } from "../../features/auth/authSlice";
+import { setCredentials } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery(
   {
