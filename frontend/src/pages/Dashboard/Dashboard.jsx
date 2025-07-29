@@ -4,14 +4,17 @@ import { useGetUserInfoQuery } from "../../features/user/userApiSlice";
 import { useState, useMemo} from "react";
 import { computeUserToAdminRatioSeverity } from "./DashboardHelper.jsx";
 import { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
+
+    const navigate = useNavigate()
     const {t, i18n} = useTranslation("dashboard")
     const [activeRatio, setActiveRatio] = useState([])
     const [adminCount, setAdminCount] = useState(-1)
     const [userCount, setUserCount] = useState(-1)
     const [userAdminRatio, setUserAdminRatio] = useState(-1)
 
-    const { data, isLoading, isError } = useGetUserInfoQuery(undefined, {
+    const { data, error, isLoading, isError } = useGetUserInfoQuery(undefined, {
             pollingInterval: 5 * 60 * 1000, //Retrieve information every 5 minutes
             refetchOnFocus: true,
             refetchOnMountOrArgChange: true
@@ -63,6 +66,15 @@ export default function Dashboard() {
         },
 
     ]
+
+    if (isError) {
+        return (
+            <div className="flex flex-row gap-5 items-center justify-center">
+                <h2>{error.data.message}</h2>
+                <button className="secondary-btn" onClick={() => navigate("/")}>Back to Login</button>
+            </div>
+        )
+    }
     
     
     return (

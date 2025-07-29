@@ -1,21 +1,24 @@
 import { useGetUserInfoQuery } from "../../features/user/userApiSlice.js"
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import Modal from "../../component/Modal/Modal.jsx"
 import Icon from "../../component/Icon/Icon.jsx"
 import "./ManageUsersPage.scss"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 export default function ManageUsersPage() {
 
     const {t, i18n} = useTranslation("manage_users_page")
+    const navigate = useNavigate()
     const [showModal, setShowModal] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
     const [selected, setSelected] = useState(null)
+    const [filtered, setFiltered] = useState([])
     const [query, setQuery] = useState({
         query: "",
         status: null,
         role: null
     })
-    const { data, isLoading, isError } = useGetUserInfoQuery(undefined, {
+    const { data, isLoading, isError, error, isSuccess} = useGetUserInfoQuery(undefined, {
         pollingInterval: 5 * 60 * 1000, //Retrieve information every 5 minutes
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
@@ -41,23 +44,37 @@ export default function ManageUsersPage() {
         ))
     }
 
-    if (isError) return <div> Error </div>
+    useMemo( () => { 
+
+        if (isSuccess) {
+            const filtered = data.filter(({name, email, role, isActive}) => {
+                let res = true
+                if (query.query) {
+                    const q = query.query.toLocaleLowerCase()
+                    res = res && (name.toLowerCase().startsWith(q) || email.toLowerCase().startsWith(q))
+                }
+                if (query.role) res = res && role === query.role
+
+                if (query.status) {
+                    const toBool = query.status === "true" ? true : false
+                    res = res && isActive === toBool
+                }
+                return res
+            })
+            setFiltered(filtered)
+        }
+    }, [data, query])
+
+    if (isError) {
+        return (
+            <div className="flex flex-row gap-5 items-center justify-center">
+                <h2>{error.data.message}</h2>
+                <button className="secondary-btn" onClick={() => navigate("/")}>Back to Login</button>
+            </div>
+        )
+    }
+    
     if (isLoading) return <div> Loading... </div>
-
-    const filtered = data.filter(({name, email, role, isActive}) => {
-        let res = true
-        if (query.query) {
-            const q = query.query.toLocaleLowerCase()
-            res = res && (name.toLowerCase().startsWith(q) || email.toLowerCase().startsWith(q))
-        }
-        if (query.role) res = res && role === query.role
-
-        if (query.status) {
-            const toBool = query.status === "true" ? true : false
-            res = res && isActive === toBool
-        }
-        return res
-    })
 
     return (
         <>
