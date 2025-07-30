@@ -229,28 +229,29 @@ npm run dev
 
 Assuming we do not count login from the same user more than once
 ```sql
-SELECT COUNT(DISTINCT (user_id)) as Weekly login count 
+SELECT 
+  DATE(login_time), 
+  COUNT(DISTINCT(user_id)) as unique_users_logged_in
 FROM user_logins
-WHERE login_time >= DATEADD(day,-7, GETDATE())
-
+WHERE DATEDIFF(CURRENT_DATE, DATE(login_time)) < 7
+GROUP BY DATE(login_time);
 ```
 
 ### Q2: Detect 3 consecutive login days
 ```sql
 WITH dates AS (
-  SELECT user_id, CAST(login_time AS DATE) AS d
+  SELECT user_id, DATE(login_time) AS d
   FROM user_logins
-  GROUP BY user_id, CAST(login_time AS DATE)
+  GROUP BY user_id, DATE(login_time)
 )
-SELECT DISTINCT d1.user_id
+SELECT DISTINCT d1.user_id as three_day_consecutive_login_user
 FROM dates d1
 JOIN dates d2 
   ON d2.user_id = d1.user_id 
-  AND d2.d = DATEADD(day, 1, d1.d)
+  AND DATEDIFF(d2.d, d1.d) = 1
 JOIN dates d3 
   ON d3.user_id = d1.user_id 
-  AND d3.d = DATEADD(day, 2, d1.d);
-
+  AND DATEDIFF(d3.d,d1.d) = 2;
 ```
 
 ---
