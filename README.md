@@ -183,8 +183,7 @@ Provide a simple flow or diagram if possible.
 Create `.env` in your backend folder
 Define the following key:
 
-- `VITE_APP_BACKEND_URL`: Your backend URL (use http://localhost:3001 as default)
-- `VITE_APP_BASE_URL`: Your frontend URL (use http://localhost:3000 as default)
+- `FRONTEND_URL`: Your frontend URL (use http://localhost:3000 as default)
 
 - `MONGODB_API_KEY`: Your MongoDB key (Email me if you want the key for a sample database)
 Note: Your MongoDB API key will look something like `mongodb+srv://<username>:<password>@cluster0.dtrrl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`

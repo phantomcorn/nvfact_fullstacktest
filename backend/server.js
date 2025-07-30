@@ -36,7 +36,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 app.use(cors({
-    origin: process.env.VITE_APP_BASE_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true, //Accept credentials cookies (i.e jwt) sent by client
     optionsSuccessStatus: 200
 }))
