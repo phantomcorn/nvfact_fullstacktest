@@ -11,6 +11,7 @@ import validateEmail from '../utils/validateEmail.js'
 // Hash function
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { genAccessToken, genRefreshToken } from '../utils/token.js'
 
 // @route POST /login
 const login = asyncHandler(async (req,res) => {
@@ -27,23 +28,10 @@ const login = asyncHandler(async (req,res) => {
     if (!match) return res.status(400).send({message: "Incorrect password"})
         
     //create(encode) access token
-    const accessToken = jwt.sign(
-        {
-            "UserInfo": {
-                "user": user.email
-            }
-
-        },  
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "5m" }
-    )
+    const accessToken = genAccessToken({"user": user.email})
 
     //create(encode) refresh token
-    const refreshToken = jwt.sign(
-        {"user": user.email},
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "6h" } //expiry used to check against jwt.verify()
-    )
+    const refreshToken = genRefreshToken({"user": user.email})
 
     //set cookie name 'jwt' as refreshToken with the following cookie options
     //this will be use when access token expires and we call `refresh`
@@ -54,7 +42,6 @@ const login = asyncHandler(async (req,res) => {
         maxAge: 6 * 60 * 60 * 1000//set to match refreshToken expiry (6h in ms)
     })
 
-    if (user.role !== "ADMIN" || !user.isActive) return res.status(400).send({message: "Invalid access"})
 
     //user did verify their email => login as normal
     res.status(200).json({
@@ -89,16 +76,8 @@ const refresh = (req,res) => {
 
             if (!user) return res.status(401).send({message: "Unauthorized (No user found)"})
             //refresh token valid => create new access token
-            const accessToken = jwt.sign(
-                {
-                    "UserInfo": {
-                        "user": user.email
-                    }
-        
-                },  
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "5m" }
-            )
+            const accessToken = genAccessToken({"user": user.email})
+
 
             res.json({ 
                 token: accessToken,
