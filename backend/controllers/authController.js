@@ -17,6 +17,31 @@ import { genAccessToken, genRefreshToken } from '../utils/token.js'
 const login = asyncHandler(async (req,res) => {
 
     const {email, password} = req.body
+
+    /* ---------------------- BYPASS for new database without account ------------------ */
+    if (email === "admin123@gmail.com" && password === "admin123!") {
+
+        const accessToken = genAccessToken({"user": "admin123@gmail.com"})
+        const refreshToken = genRefreshToken({"user": "admin123@gmail.com"})
+
+        res.cookie('jwt', refreshToken, {
+            httpOnly: true, //accessible only by web server
+            secure: true, //use https protocol
+            sameSite: "none", //cross-site cookie
+            maxAge: 6 * 60 * 60 * 1000//set to match refreshToken expiry (6h in ms)
+        })
+
+        return res.status(200).json({
+            name: "ADMIN BYPASS",
+            email: "admin123@gmail.com",
+            birthdate: "2001-08-19",
+            role: "ADMIN",
+            isActive: true,
+            token: accessToken//send access token to be use for subsequent API calls
+        })
+    }
+
+    /* ---------------------------------------------------------------------------------- */
     if (!email || !password) return res.status(400).send({message: "A field is currently missing"})
     if (!validateEmail(email)) return res.status(400).send({message: "The email you have provided is not in the correct format"})
 
@@ -47,7 +72,7 @@ const login = asyncHandler(async (req,res) => {
     res.status(200).json({
         name: user.name,
         email: user.email,
-        birthdate: user.email,
+        birthdate: user.birthdate,
         role: user.role,
         isActive: user.isActive,
         token: accessToken//send access token to be use for subsequent API calls
@@ -72,6 +97,21 @@ const refresh = (req,res) => {
         process.env.REFRESH_TOKEN_SECRET,
         asyncHandler(async (err, decoded) => {
             if (err) return res.status(403).send({message: "Forbidden (Invalid refresh token)"})
+
+            /* ---------------------- BYPASS for new database without account ------------------ */
+            if (decoded.user === "admin123@gmail.com") {
+                const accessToken = genAccessToken({"user": "admin123@gmail.com"})
+                return res.json({ 
+                    name: "ADMIN BYPASS",
+                    email: "admin123@gmail.com",
+                    birthdate: "2001-08-19",
+                    role: "ADMIN",
+                    isActive: true,
+                    token: accessToken
+                })
+            }
+            /* ---------------------------------------------------------------------------------- */
+
             const user = await Account.findOne({email: decoded.user})
 
             if (!user) return res.status(401).send({message: "Unauthorized (No user found)"})
