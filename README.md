@@ -187,6 +187,7 @@ Define the following key:
 - `VITE_APP_BASE_URL`: Your frontend URL (use http://localhost:3000 as default)
 
 - `MONGODB_API_KEY`: Your MongoDB key (Email me if you want the key for a sample database)
+Note: Your MongoDB API key will look something like `mongodb+srv://<username>:<password>@cluster0.dtrrl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 - `ACCESS_TOKEN_SECRET`: Generate by running on `node` the command `require('crypto').randomBytes(64).toString('hex')`
 - `REFRESH_TOKEN_SECRET` : Generate same way as `ACCESS_TOKEN_SECRET`
 #### Instructions to run backend:
