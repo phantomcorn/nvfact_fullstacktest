@@ -271,6 +271,7 @@ Areas to improve:
 - On user first create, must verify email before admin can update status (ACTIVE/INACTIVE)
 - Improve layout (Responsive for mobile)
 - Add field to assign user to a specific station (within the smart factory). That way in dashboard you could see how many people are working on each station and allocate them as such.
+- Use Typescript to ensure type-safe and less error-prone.
 
 ---
 
